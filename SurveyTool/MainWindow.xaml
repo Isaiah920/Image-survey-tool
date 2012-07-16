@@ -1,0 +1,12 @@
+﻿<Window x:Class="SurveyTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="170" Width="826" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid Margin="3">
+        <ProgressBar Height="23" HorizontalAlignment="Center" Name="progressBar1" VerticalAlignment="Bottom" Width="212" Value="80" Foreground="#FFC7C5C5" Margin="3" />
+        <Button Content="Next &gt;" Height="23" HorizontalAlignment="Right" Name="button1" VerticalAlignment="Bottom" Width="75" Margin="3" />
+        <Button Content="&lt; Previous" Height="23" HorizontalAlignment="Left" Name="button2" VerticalAlignment="Bottom" Width="75" Margin="3" />
+        <Label Content="2 / 10" Height="23" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Bottom" Width="94" FontFamily="Tahoma" HorizontalContentAlignment="Center" FontWeight="Bold" Margin="3" />
+        <Grid HorizontalAlignment="Stretch" Name="QuestionGrid" VerticalAlignment="Stretch" Margin="0,0,0,30" />
+    </Grid>
+</Window>

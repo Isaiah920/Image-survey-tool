@@ -1,0 +1,8 @@
+﻿<Window x:Class="SurveyTool.ImageViewer" Name="ViewerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ImageViewer" Height="300" Width="400" Loaded="Window_Loaded" MouseWheel="Window_MouseWheel" MouseMove="ImageGrid_MouseMove" MouseLeftButtonDown="ImageGrid_MouseLeftButtonDown" MouseLeftButtonUp="ImageGrid_MouseLeftButtonUp" WindowStyle="None">
+    <Grid Name="ImageGrid">
+        
+    </Grid>
+</Window>

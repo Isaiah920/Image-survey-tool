@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyTool", "SurveyTool\SurveyTool.csproj", "{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}.Debug|x86.ActiveCfg = Debug|x86
+		{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}.Debug|x86.Build.0 = Debug|x86
+		{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}.Release|x86.ActiveCfg = Release|x86
+		{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
