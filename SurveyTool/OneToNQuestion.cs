@@ -35,11 +35,11 @@ namespace SurveyTool
 
         #region Constructors
 
-        /*
+        
             public OneToNQuestion()
             {
-                initialize(5, 4);
-            }*/
+            //    initialize(5, 4);
+            }
             public OneToNQuestion(int numChoices, int numImages)
             {
                 this.numImages = numImages;
@@ -75,6 +75,12 @@ namespace SurveyTool
                 }
                 return false; //invalid index
             }
+            public bool SetChoiceLabels(IEnumerable<string> labels)
+            {
+                choiceLabels = labels.ToList<string>();
+                return true;
+            }
+
             public bool Display(Grid questionPane)
             {
 

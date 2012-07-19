@@ -7,8 +7,8 @@ namespace SurveyTool
 {
     class ImageSet
     {
-        private List<IQuestions> questionList;
-        private List<String> imagePath;
+        private List<IQuestions> questionList = new List<IQuestions>();
+        private List<String> imagePath = new List<string>();
         private int currQuestion = 0;
 
         #region Properties
@@ -30,6 +30,11 @@ namespace SurveyTool
 
         #region Public Methods
 
+            public ImageSet()
+            {
+
+            }
+
             public void AddQuestion(IQuestions question)
             {
                 questionList.Add(question);
@@ -45,6 +50,10 @@ namespace SurveyTool
             public IQuestions GetNextQuestion()
             {
                 return null;
+            }
+            public void AddPicture(string path)
+            {
+                imagePath.Add(path);
             }
 
         #endregion

@@ -4,9 +4,20 @@
         Title="MainWindow" Height="170" Width="826" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid Margin="3">
         <ProgressBar Height="23" HorizontalAlignment="Center" Name="progressBar1" VerticalAlignment="Bottom" Width="212" Value="80" Foreground="#FFC7C5C5" Margin="3" />
-        <Button Content="Next &gt;" Height="23" HorizontalAlignment="Right" Name="button1" VerticalAlignment="Bottom" Width="75" Margin="3" />
-        <Button Content="&lt; Previous" Height="23" HorizontalAlignment="Left" Name="button2" VerticalAlignment="Bottom" Width="75" Margin="3" />
+        <Button Name="button1" VerticalAlignment="Bottom" Width="74" Margin="0,0,3,3" Height="24" HorizontalAlignment="Right">
+            <Grid Width="60">
+                <Label Content="Next" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="3" Margin="3,0,0,0" />
+                <Image Height="24" HorizontalAlignment="Right" Name="image2" Stretch="Fill" Width="24" Source="/SurveyTool;component/Images/arrow_right_green_48.png" VerticalAlignment="Center" />
+            </Grid>
+        </Button>
+        <Button Name="button2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="86" Height="24" Margin="3,0,0,3">
+            <Grid Width="75">
+                <Label Content="Previous" Height="23" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="3" />
+                <Image Height="24" HorizontalAlignment="Left" Name="image1" Stretch="Fill" Width="24" Source="/SurveyTool;component/Images/arrow_left_green_48.png" VerticalAlignment="Center" />
+            </Grid>
+        </Button>
         <Label Content="2 / 10" Height="23" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Bottom" Width="94" FontFamily="Tahoma" HorizontalContentAlignment="Center" FontWeight="Bold" Margin="3" />
-        <Grid HorizontalAlignment="Stretch" Name="QuestionGrid" VerticalAlignment="Stretch" Margin="0,0,0,30" />
+        <Grid HorizontalAlignment="Stretch" Name="QuestionGrid" VerticalAlignment="Stretch" Margin="0,0,0,30">
+        </Grid>
     </Grid>
 </Window>
