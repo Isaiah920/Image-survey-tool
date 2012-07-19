@@ -22,9 +22,8 @@ namespace SurveyTool
         #region Properties
 
             public int NumChoices { get; set; }
-            private int numImages = 4;
-            public string QuestionString { get; set; }
-
+            private int numImages;
+            private string questionString;
             private List<string> choiceLabels = new List<string>();
             public IList<string> ChoiceLabels
             {
@@ -39,6 +38,7 @@ namespace SurveyTool
             public OneToNQuestion()
             {
             //    initialize(5, 4);
+                numImages = 4; //TODO not necessarily...
             }
             public OneToNQuestion(int numChoices, int numImages)
             {
@@ -47,7 +47,7 @@ namespace SurveyTool
             }
             private void initialize(int numChoices)
             {
-                QuestionString = "What is the answer to this question?";
+                questionString = "What is the answer to this question?";
                 if (numChoices < 0)
                 {
                     //just quietly pick something sensible, cause we don't want to error out of the constructor, but <1 won't do
@@ -132,7 +132,7 @@ namespace SurveyTool
                 Label questionLabel = new Label();
                 questionLabel.FontSize = 14;
                 questionLabel.FontWeight = FontWeights.Bold;
-                questionLabel.Content = QuestionString;
+                questionLabel.Content = questionString;
                 questionPane.Children.Add(questionLabel);
                 questionLabel.SetValue(Grid.ColumnSpanProperty, 2);
 
@@ -182,6 +182,25 @@ namespace SurveyTool
 
             public void DisplayEditDialog(Grid editPane)
             {
+            }
+            public string GetQuestionString()
+            {
+                return questionString;
+            }
+            public bool SetQuestionString(string question)
+            {
+                questionString = question;
+                return true;
+            }
+
+            public int GetNumImages()
+            {
+                return numImages;
+            }
+            public bool SetNumImages(int num)
+            {
+                numImages = num;
+                return true;
             }
 
 

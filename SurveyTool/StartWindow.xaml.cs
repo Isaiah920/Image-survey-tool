@@ -60,14 +60,18 @@ namespace SurveyTool
                     int j=0;
                     try
                     {
-                        //get each photo -- there will be between 1 and 4, in excel columns C-F.  An empty string means there are no more
-                        //photos in this set
-                        currPhoto = photoWorksheet.get_Range(((char)(currCol + j)) + "" + (4 + i), ((char)(currCol + j)) + "" + (4 + i)).Value.ToString();
-                        if (currPhoto != "")
+                        do
                         {
-                            imageSets[i].AddPicture(rootPath + currPhoto);
+                            //get each photo -- there will be between 1 and 4, in excel columns C-F.  An empty string means there are no more
+                            //photos in this set
+                            currPhoto = photoWorksheet.get_Range(((char)(currCol + j)) + "" + (4 + i), ((char)(currCol + j)) + "" + (4 + i)).Value.ToString();
+                            if (currPhoto != "")
+                            {
+                                imageSets[i].AddPicture(rootPath + currPhoto);
+                            }
+                            j++;
                         }
-                        j++;
+                        while (currPhoto != "");
                     }
                     catch (NullReferenceException ex)
                     {
@@ -86,13 +90,14 @@ namespace SurveyTool
                     try
                     {
                         IQuestions currQuestion = (IQuestions)Activator.CreateInstance(null, "SurveyTool." + qTypeString).Unwrap();
+                        currQuestion.SetQuestionString(surveyWorksheet.get_Range("C" + (4 + i), "C" + (4 + i)).Value.ToString());
                         if (currQuestion is OneToNQuestion)
                         {
                             OneToNQuestion tempQuestion = (OneToNQuestion)currQuestion;
-                            string[] labels = surveyWorksheet.get_Range("D" + (4 + i), "D" + (4 + i)).Value.ToString().Split(';');
+                            string[] labels = surveyWorksheet.get_Range("E" + (4 + i), "E" + (4 + i)).Value.ToString().Split(';'); //TODO: check for exception here
                             tempQuestion.SetChoiceLabels(labels);
-
                         }
+                        imageSets[imageGroupNum-1].AddQuestion(currQuestion); //since the Excel sheet starts at 1 rather than 0...
                     }
                     catch (TypeLoadException ex)
                     {

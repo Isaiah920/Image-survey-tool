@@ -6,12 +6,16 @@ using System.Windows.Controls;
 
 namespace SurveyTool
 {
-    interface IQuestions
+    public interface IQuestions
     {
         bool Display(Grid questionPane); //System.Windows.UIElement
         bool Cleanup();
         bool Serialize();
 
+        string GetQuestionString();
+        bool SetQuestionString(string question);
 
+        int GetNumImages();
+        bool SetNumImages(int num);
     }
 }

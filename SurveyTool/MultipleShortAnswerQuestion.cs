@@ -8,6 +8,9 @@ namespace SurveyTool
 {
     class MultipleShortAnswerQuestion:IQuestions
     {
+        private string questionString;
+        private int numImages;
+
         public bool Display(Grid questionPane)
         {
             return true;
@@ -18,6 +21,25 @@ namespace SurveyTool
         }
         public bool Serialize()
         {
+            return true;
+        }
+        public string GetQuestionString()
+        {
+            return questionString;
+        }
+        public bool SetQuestionString(string question)
+        {
+            questionString = question;
+            return true;
+        }
+
+        public int GetNumImages()
+        {
+            return numImages;
+        }
+        public bool SetNumImages(int num)
+        {
+            numImages = num;
             return true;
         }
     }
