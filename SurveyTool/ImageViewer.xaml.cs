@@ -63,7 +63,13 @@ namespace SurveyTool
             src.BeginInit();
             src.UriSource = new Uri("Sunset.jpg", UriKind.Relative);
             src.CacheOption = BitmapCacheOption.OnLoad;
-            src.EndInit();
+            try
+            {
+                src.EndInit();
+            }
+            catch (Exception ex) //TODO: for some reason, after excel is loaded, looks in project folder rather than bin/debug... why?
+            {
+            }
             img.Source = src;
             img.Stretch = Stretch.Uniform;//.Uniform; //.UniformToFill;
             img.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;

@@ -108,8 +108,14 @@ namespace SurveyTool
                 SurveySelectTextBlock.Text = "The survey has been loaded successfully.";
 
             }
-
             
+        }
+
+        private void StartSurveyButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow win = new MainWindow();
+            win.Show();
+            win.Activate();
         }
     }
 }

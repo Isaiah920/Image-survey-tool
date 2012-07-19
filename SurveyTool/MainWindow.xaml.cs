@@ -59,6 +59,7 @@ namespace SurveyTool
                 imView[i].Width = width / 2;
                 imView[i].Height = (height - 200) / numRows;
                 imView[i].Show();
+                imView[i].Activate();
 
                 if (currCol == 1)
                 {
