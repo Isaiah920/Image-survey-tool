@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SurveyTool
 {
-    class ImageSet
+    public class ImageSet
     {
         private List<IQuestions> questionList = new List<IQuestions>();
         private List<String> imagePath = new List<string>();
@@ -45,15 +45,20 @@ namespace SurveyTool
             }
             public IQuestions GetPreviousQuestion()
             {
-                return null;
+                return questionList[--currQuestion]; //TODO: check this -- getnext at 1 = 0
             }
             public IQuestions GetNextQuestion()
             {
-                return null;
+                return questionList[currQuestion++]; //TODO: check this -- getnext at 0 = 0
+
             }
             public void AddPicture(string path)
             {
                 imagePath.Add(path);
+            }
+            public string GetImageAt(int index)
+            {
+                return imagePath[index];
             }
 
         #endregion

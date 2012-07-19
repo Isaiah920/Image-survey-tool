@@ -28,10 +28,47 @@ namespace SurveyTool
 
         }
         int currNumImages = 4;
+        int currImageSet = 0;
+        int currQuestion = 0;
         ImageViewer[] imView;
+        List<ImageSet> imageSetList = new List<ImageSet>();
+
+        public void test()
+        {
+        }
+
+        public void InitializeImageList(List<ImageSet> imageSet)
+        {
+            this.imageSetList = imageSet;
+        }
+        public void StartDisplaying()
+        {
+            displaySet(0);
+            displayNextQuestion();
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void displayNextQuestion()
+        {
+            //if there are no more questions for our current image set, advance to the next:
+            if (!imageSetList[currImageSet].HasNextQuestion)
+            {
+                displaySet(++currImageSet);
+            }
+            IQuestions x = imageSetList[currImageSet].GetNextQuestion();
+            x.Display(QuestionGrid);
+        }
+
+        private void displaySet(int index)
+        {
+            currImageSet = index; //remember this, since we'll need to get questions from here later
+            currNumImages = imageSetList[index].NumQuestions;
+
+            //TODO: would be nice to have images maintain their position if they are moved around, 
+            //rather than having them "snap back" upon changing image sets...
             imView = new ImageViewer[currNumImages];
 
             int width = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -40,8 +77,10 @@ namespace SurveyTool
             this.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
             this.Left = width/2 - this.Width / 2;
             this.Top = (height - 200);
-            OneToNQuestion x = new OneToNQuestion(5, 4);
-            x.Display(QuestionGrid);
+            
+            //TODO: load in question instead of this
+            //OneToNQuestion x = new OneToNQuestion(5, 4);
+            //x.Display(QuestionGrid);
 
             int numRows = currNumImages / 2; //always use 2 columns
             int currRow = 0;
@@ -51,6 +90,7 @@ namespace SurveyTool
             for (int i = 0; i < currNumImages; i++)
             {
                 imView[i] = new ImageViewer();
+                imView[i].loadImage(imageSetList[index].GetImageAt(i));
                 imView[i].ShowInTaskbar = false;
                 //imView.
                 imView[i].WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;

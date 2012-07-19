@@ -28,7 +28,7 @@ namespace SurveyTool
         public ImageViewer()
         {
             InitializeComponent();
-            loadImage();
+            //loadImage();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -36,7 +36,7 @@ namespace SurveyTool
             updateTitle();
         }
 
-        private void loadImage()
+        public void loadImage(string path)
         {
             // pattern of images: 1 2   or  1 2     or  1 2
             //                    . .       3 .         3 4
@@ -61,7 +61,7 @@ namespace SurveyTool
 
             BitmapImage src = new BitmapImage();
             src.BeginInit();
-            src.UriSource = new Uri("Sunset.jpg", UriKind.Relative);
+            src.UriSource = new Uri(path, UriKind.Relative);//"Sunset.jpg", UriKind.Relative);
             src.CacheOption = BitmapCacheOption.OnLoad;
             try
             {

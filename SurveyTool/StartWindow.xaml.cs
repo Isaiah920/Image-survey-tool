@@ -26,6 +26,9 @@ namespace SurveyTool
             InitializeComponent();
         }
 
+        //TODO: must be public to pass it along to other stuff later, since reference object... probably not a good thing
+        public List<ImageSet> imageSets;
+
         private void FileBrowseButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -49,7 +52,7 @@ namespace SurveyTool
                 int numQuestions = int.Parse(surveyWorksheet.get_Range("G4", "G4").Value.ToString());
                 //int numQuestions = (int)surveyWorksheet.get_Range("G4", "G4").Value;
 
-                List<ImageSet> imageSets = new List<ImageSet>(numImageSets);
+                imageSets = new List<ImageSet>(numImageSets);
                 for (int i=0; i<numImageSets; i++)
                 {
                     imageSets.Add(new ImageSet());
@@ -110,10 +113,14 @@ namespace SurveyTool
             }
             
         }
+        private int x = 2;
 
         private void StartSurveyButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow win = new MainWindow();
+            win.InitializeImageList(imageSets);
+            win.StartDisplaying();
+            //win.InitializeList(x);
             win.Show();
             win.Activate();
         }
