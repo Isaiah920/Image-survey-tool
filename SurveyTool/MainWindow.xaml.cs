@@ -82,11 +82,9 @@ namespace SurveyTool
             {
                 x = imageSetList[currImageSet].GetNextQuestion();
             }
-            currQuestion++;
-
                            
             //enable/disable previous and next buttons, depending on our position:
-            //currQuestion--;
+            currQuestion++;
             NextButton.IsEnabled = currQuestion < TotalNumQuestions - 1;
             PreviousButton.IsEnabled = true;
 
