@@ -38,7 +38,7 @@ namespace SurveyTool
             public OneToNQuestion()
             {
             //    initialize(5, 4);
-                numImages = 4; //TODO not necessarily...
+                //numImages = 4; //TODO not necessarily...
             }
             public OneToNQuestion(int numChoices, int numImages)
             {
@@ -71,6 +71,7 @@ namespace SurveyTool
                 if (index >= 0 && index < NumChoices)
                 {
                     choiceLabels[index] = label;
+                    NumChoices = choiceLabels.Count;
                     return true;
                 }
                 return false; //invalid index
@@ -78,6 +79,7 @@ namespace SurveyTool
             public bool SetChoiceLabels(IEnumerable<string> labels)
             {
                 choiceLabels = labels.ToList<string>();
+                NumChoices = choiceLabels.Count;
                 return true;
             }
 
@@ -124,7 +126,8 @@ namespace SurveyTool
                     {
                         radioChoices[i,j] = new RadioButton();
                         questionStackPanel[i].Children.Add(radioChoices[i,j]);
-                        radioChoices[i,j].Content = "" + (j + 1);
+                        radioChoices[i, j].Content = choiceLabels[j];
+                        //radioChoices[i,j].Content = "" + (j + 1);
                         radioChoices[i,j].Margin = new Thickness(5);
                     }
                 }

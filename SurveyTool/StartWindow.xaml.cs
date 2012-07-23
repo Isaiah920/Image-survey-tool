@@ -78,7 +78,7 @@ namespace SurveyTool
                     }
                     catch (NullReferenceException ex)
                     {
-                        //this happens when we read ""
+                        //this happens when we read "", since nothing to get the .Value of...
 
                     }
 
@@ -94,6 +94,7 @@ namespace SurveyTool
                     {
                         IQuestions currQuestion = (IQuestions)Activator.CreateInstance(null, "SurveyTool." + qTypeString).Unwrap();
                         currQuestion.SetQuestionString(surveyWorksheet.get_Range("C" + (4 + i), "C" + (4 + i)).Value.ToString());
+                        currQuestion.SetNumImages(imageSets[int.Parse(surveyWorksheet.get_Range("A" + (4 + i), "A" + (4 + i)).Value.ToString())-1].NumImages);
                         if (currQuestion is OneToNQuestion)
                         {
                             OneToNQuestion tempQuestion = (OneToNQuestion)currQuestion;

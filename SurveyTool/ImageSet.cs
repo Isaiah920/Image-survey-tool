@@ -25,6 +25,10 @@ namespace SurveyTool
             {
                 get { return currQuestion < NumQuestions-1; }
             }
+            public int NumImages
+            {
+                get { return imagePath.Count; }
+            }
 
         #endregion
 
