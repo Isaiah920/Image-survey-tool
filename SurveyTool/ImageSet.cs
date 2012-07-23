@@ -19,11 +19,11 @@ namespace SurveyTool
             }
             public bool HasPrevQuestion
             {
-                get { return currQuestion > 0; }
+                get { return currQuestion > 0; } //first question is 1
             }
             public bool HasNextQuestion
             {
-                get { return currQuestion <= NumQuestions-1; }
+                get { return currQuestion < NumQuestions -1; }
             }
             public int NumImages
             {
@@ -47,13 +47,17 @@ namespace SurveyTool
             {
                 questionList.Remove(question);
             }
+            public IQuestions GetCurrentQuestion() //we've just come to this question from another image list; resume where we left off
+            {
+                return questionList[currQuestion]; //TODO: check this -- getprev at 1 = 0
+            }
             public IQuestions GetPreviousQuestion()
             {
-                return questionList[--currQuestion]; //TODO: check this -- getnext at 1 = 0
+                return questionList[--currQuestion]; //TODO: check this -- getprev at 1 = 0
             }
             public IQuestions GetNextQuestion()
             {
-                return questionList[currQuestion++]; //TODO: check this -- getnext at 0 = 0
+                return questionList[++currQuestion]; //TODO: check this -- getnext at 0 = 1
 
             }
             public void AddPicture(string path)

@@ -28,7 +28,7 @@ namespace SurveyTool
 
         }
         int currNumImages = 4;
-        int currImageSet = 0;
+        int currImageSet = -1;
         int currQuestion = -1;
         public int TotalNumQuestions { get; set; }
 
@@ -45,7 +45,6 @@ namespace SurveyTool
         }
         public void StartDisplaying()
         {
-            displaySet(0);
             displayNextQuestion();
             QuestionProgressBar.Maximum = TotalNumQuestions;
             updateCurrQuestionLabel();
@@ -59,17 +58,62 @@ namespace SurveyTool
             CurrQuestionLabel.Content = (currQuestion + 1) + " / " + TotalNumQuestions;
             QuestionProgressBar.Value = currQuestion + 1;
         }
+        private void resetQuestionGrid()
+        {
+            QuestionGrid.Children.Clear(); //get rid of everything from previous question
+            QuestionGrid.ColumnDefinitions.Clear();
+            QuestionGrid.RowDefinitions.Clear();
+        }
 
         private void displayNextQuestion()
         {
-            QuestionGrid.Children.Clear(); //get rid of everything from previous question
+            resetQuestionGrid();
+            IQuestions x;
+
             //if there are no more questions for our current image set, advance to the next:
-            if (!imageSetList[currImageSet].HasNextQuestion)
+            // OR if this is our very first question
+            if (currQuestion == -1 || !imageSetList[currImageSet].HasNextQuestion) //(currQuestion == -1 ||
             {
                 displaySet(++currImageSet);
+                //if we've just come from the previous image set, display the first question in the set:
+                x = imageSetList[currImageSet].GetCurrentQuestion();
+            }
+            else
+            {
+                x = imageSetList[currImageSet].GetNextQuestion();
             }
             currQuestion++;
-            IQuestions x = imageSetList[currImageSet].GetNextQuestion();
+
+                           
+            //enable/disable previous and next buttons, depending on our position:
+            //currQuestion--;
+            NextButton.IsEnabled = currQuestion < TotalNumQuestions - 1;
+            PreviousButton.IsEnabled = true;
+
+            x.Display(QuestionGrid);
+            updateCurrQuestionLabel();
+        }
+        private void displayPreviousQuestion()
+        {
+            resetQuestionGrid();
+            IQuestions x;
+            //if there are no more questions for our current image set, advance to the next:
+            if (!imageSetList[currImageSet].HasPrevQuestion)
+            {
+                displaySet(--currImageSet);
+                //if we've just come from the next image set, display the last question we left off at:
+                x = imageSetList[currImageSet].GetCurrentQuestion();
+            }
+            else
+            {
+                x = imageSetList[currImageSet].GetPreviousQuestion();
+            }
+
+            //enable/disable previous and next buttons, depending on our position:
+            currQuestion--;
+            NextButton.IsEnabled = true;
+            PreviousButton.IsEnabled = currQuestion > 0;
+
             x.Display(QuestionGrid);
             updateCurrQuestionLabel();
         }
@@ -152,6 +196,11 @@ namespace SurveyTool
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             displayNextQuestion();
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            displayPreviousQuestion();
         }
 
     }
