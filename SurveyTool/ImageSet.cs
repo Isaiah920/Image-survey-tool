@@ -23,7 +23,7 @@ namespace SurveyTool
             }
             public bool HasNextQuestion
             {
-                get { return currQuestion < NumQuestions-1; }
+                get { return currQuestion <= NumQuestions-1; }
             }
             public int NumImages
             {
@@ -31,7 +31,7 @@ namespace SurveyTool
             }
 
         #endregion
-
+        
         #region Public Methods
 
             public ImageSet()

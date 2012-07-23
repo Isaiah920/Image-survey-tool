@@ -53,6 +53,7 @@ namespace SurveyTool
 
         private void displayNextQuestion()
         {
+            QuestionGrid.Children.Clear(); //get rid of everything from previous question
             //if there are no more questions for our current image set, advance to the next:
             if (!imageSetList[currImageSet].HasNextQuestion)
             {
@@ -64,8 +65,16 @@ namespace SurveyTool
 
         private void displaySet(int index)
         {
+            if (imView != null)
+            {
+                foreach (ImageViewer im in imView)
+                {
+                    //TODO: would be better to just change image, position later
+                    im.Close();
+                }
+            }
             currImageSet = index; //remember this, since we'll need to get questions from here later
-            currNumImages = imageSetList[index].NumQuestions;
+            currNumImages = imageSetList[index].NumImages;
 
             //TODO: would be nice to have images maintain their position if they are moved around, 
             //rather than having them "snap back" upon changing image sets...
@@ -82,7 +91,7 @@ namespace SurveyTool
             //OneToNQuestion x = new OneToNQuestion(5, 4);
             //x.Display(QuestionGrid);
 
-            int numRows = currNumImages / 2; //always use 2 columns
+            int numRows = (int)Math.Ceiling(currNumImages / 2.0); //always use 2 columns
             int currRow = 0;
             int currCol = 0;
 
@@ -96,7 +105,15 @@ namespace SurveyTool
                 imView[i].WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
                 imView[i].Top = currRow * (height - 200) / numRows;
                 imView[i].Left = currCol * width / 2;
-                imView[i].Width = width / 2;
+                if (currNumImages > 1)
+                {
+                    imView[i].Width = width / 2;
+                }
+                else
+                {
+                    //if we only have 1 image, we don't need 2 columns to display things, so use entire width:
+                    imView[i].Width = width;
+                }
                 imView[i].Height = (height - 200) / numRows;
                 imView[i].Show();
                 imView[i].Activate();
@@ -111,9 +128,6 @@ namespace SurveyTool
                     currCol++;
                 }
             }
-
-
-
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -122,6 +136,11 @@ namespace SurveyTool
             {
                 iv.Close();
             }
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            displayNextQuestion();
         }
 
     }
