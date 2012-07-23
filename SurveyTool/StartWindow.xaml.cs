@@ -21,6 +21,9 @@ namespace SurveyTool
     /// </summary>
     public partial class StartWindow : System.Windows.Window
     {
+        int numQuestions = 0;
+        int numImageSets = 0;
+
         public StartWindow()
         {
             InitializeComponent();
@@ -47,9 +50,8 @@ namespace SurveyTool
                 Worksheet surveyWorksheet = (Worksheet)wb.Worksheets.get_Item(1);
                 Worksheet photoWorksheet = (Worksheet)wb.Worksheets.get_Item(2);
 
-
-                int numImageSets = int.Parse(surveyWorksheet.get_Range("G7", "G7").Value.ToString());
-                int numQuestions = int.Parse(surveyWorksheet.get_Range("G4", "G4").Value.ToString());
+                numImageSets = int.Parse(surveyWorksheet.get_Range("G7", "G7").Value.ToString());
+                numQuestions = int.Parse(surveyWorksheet.get_Range("G4", "G4").Value.ToString());
                 //int numQuestions = (int)surveyWorksheet.get_Range("G4", "G4").Value;
 
                 imageSets = new List<ImageSet>(numImageSets);
@@ -120,6 +122,7 @@ namespace SurveyTool
         {
             MainWindow win = new MainWindow();
             win.InitializeImageList(imageSets);
+            win.TotalNumQuestions = numQuestions;
             win.StartDisplaying();
             //win.InitializeList(x);
             win.Show();

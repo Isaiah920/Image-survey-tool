@@ -29,7 +29,9 @@ namespace SurveyTool
         }
         int currNumImages = 4;
         int currImageSet = 0;
-        int currQuestion = 0;
+        int currQuestion = -1;
+        public int TotalNumQuestions { get; set; }
+
         ImageViewer[] imView;
         List<ImageSet> imageSetList = new List<ImageSet>();
 
@@ -45,10 +47,17 @@ namespace SurveyTool
         {
             displaySet(0);
             displayNextQuestion();
+            QuestionProgressBar.Maximum = TotalNumQuestions;
+            updateCurrQuestionLabel();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+        }
+        private void updateCurrQuestionLabel()
+        {
+            CurrQuestionLabel.Content = (currQuestion + 1) + " / " + TotalNumQuestions;
+            QuestionProgressBar.Value = currQuestion + 1;
         }
 
         private void displayNextQuestion()
@@ -59,8 +68,10 @@ namespace SurveyTool
             {
                 displaySet(++currImageSet);
             }
+            currQuestion++;
             IQuestions x = imageSetList[currImageSet].GetNextQuestion();
             x.Display(QuestionGrid);
+            updateCurrQuestionLabel();
         }
 
         private void displaySet(int index)
