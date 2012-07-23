@@ -86,7 +86,7 @@ namespace SurveyTool
             //enable/disable previous and next buttons, depending on our position:
             currQuestion++;
             NextButton.IsEnabled = currQuestion < TotalNumQuestions - 1;
-            PreviousButton.IsEnabled = true;
+            PreviousButton.IsEnabled = currQuestion > 0; //false for first question
 
             x.Display(QuestionGrid);
             updateCurrQuestionLabel();

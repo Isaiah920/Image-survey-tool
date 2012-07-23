@@ -20,6 +20,7 @@ namespace SurveyTool
         private string questionString;
         private int numImages;
         TextBox[] imageTextbox;
+        StackPanel[] questionStackPanel;
 
         public bool Display(Grid questionPane)
         {
@@ -34,24 +35,41 @@ namespace SurveyTool
                 RowDefinition row = new RowDefinition();
                 questionPane.RowDefinitions.Add(row);
             }
-
-            StackPanel[] questionStackPanel = new StackPanel[numImages];
+            if (questionStackPanel == null)
+            {
+                questionStackPanel = new StackPanel[numImages];
+            }
 
             Label[] imageLabel = new Label[numImages];
-            imageTextbox = new TextBox[numImages];
+            if (imageTextbox == null)
+            {
+                //we only want to make these the first time, so data persists as we flip between questions
+                imageTextbox = new TextBox[numImages];
+            }
 
             for (int i = 0; i < numImages; i++)
             {
-                questionStackPanel[i] = new StackPanel();
-                questionStackPanel[i].Orientation = Orientation.Horizontal;
-                questionStackPanel[i].HorizontalAlignment = HorizontalAlignment.Center;
+                if (questionStackPanel[i] == null)
+                {
+                    questionStackPanel[i] = new StackPanel();
+                    questionStackPanel[i].Orientation = Orientation.Horizontal;
+                    questionStackPanel[i].HorizontalAlignment = HorizontalAlignment.Center;
+                }
+                else
+                {
+                    questionStackPanel[i].Children.Clear();  //TODO: probably not the best; save all instead?
+                }
                 imageLabel[i] = new Label();
                 imageLabel[i].FontWeight = FontWeights.Bold;
                 imageLabel[i].FontSize = 12;
                 imageLabel[i].Content = (char)('A' + i);
                 questionStackPanel[i].Children.Add(imageLabel[i]);
-                imageTextbox[i] = new TextBox();
-                imageTextbox[i].Width = 320;
+                if (imageTextbox[i] == null)
+                {
+                    //again, we only want to make these once, so their data persists
+                    imageTextbox[i] = new TextBox();
+                    imageTextbox[i].Width = 320;
+                }
                 questionStackPanel[i].Children.Add(imageTextbox[i]);
             }
 
@@ -111,5 +129,6 @@ namespace SurveyTool
             numImages = num;
             return true;
         }
+        //public void ClearGrid(
     }
 }

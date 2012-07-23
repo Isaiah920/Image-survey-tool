@@ -24,6 +24,8 @@ namespace SurveyTool
             public int NumChoices { get; set; }
             private int numImages;
             private string questionString;
+            private RadioButton[,] radioChoices;
+            private StackPanel[] questionStackPanel;
             private List<string> choiceLabels = new List<string>();
             public IList<string> ChoiceLabels
             {
@@ -86,49 +88,57 @@ namespace SurveyTool
             public bool Display(Grid questionPane)
             {
 
-                //questionPane = new Grid(); //just to be sure it's really empty to begin with
-
                 ColumnDefinition col1 = new ColumnDefinition();
                 ColumnDefinition col2 = new ColumnDefinition();
-                //ColumnDefinition col3 = new ColumnDefinition();
 
                 questionPane.ColumnDefinitions.Add(col1);
                 questionPane.ColumnDefinitions.Add(col2);
-                //questionPane.ColumnDefinitions.Add(col3);
 
                 for (int i = 0; i <= Math.Ceiling(numImages / 2.0); i++)
                 {
                     RowDefinition row = new RowDefinition();
                     questionPane.RowDefinitions.Add(row);
                 }
-
-                //Button x = new Button();
-                //questionPane.Children.Add(x);
-                    //System.Windows.UIElement
-
-                StackPanel[] questionStackPanel = new StackPanel[numImages];
+                if (questionStackPanel == null)
+                {
+                    questionStackPanel = new StackPanel[numImages];
+                }
 
                 Label[] imageLabel = new Label[numImages];
 
                 for (int i = 0; i < numImages; i++)
                 {
-                    questionStackPanel[i] = new StackPanel();
-                    questionStackPanel[i].Orientation = Orientation.Horizontal;
-                    questionStackPanel[i].HorizontalAlignment = HorizontalAlignment.Center;
+                    if (questionStackPanel[i] == null)
+                    {
+                        questionStackPanel[i] = new StackPanel();
+                        questionStackPanel[i].Orientation = Orientation.Horizontal;
+                        questionStackPanel[i].HorizontalAlignment = HorizontalAlignment.Center;
+                    }
+                    else
+                    {
+                        questionStackPanel[i].Children.Clear(); //TODO: probably not the best; save all instead?
+                    }
                     imageLabel[i] = new Label();
                     imageLabel[i].FontWeight = FontWeights.Bold;
                     imageLabel[i].FontSize = 12;
                     imageLabel[i].Content = (char)('A' + i);
                     questionStackPanel[i].Children.Add(imageLabel[i]);
 
-                    RadioButton[,] radioChoices = new RadioButton[numImages, NumChoices];
+                    if (radioChoices == null)
+                    {
+                        //we only want to remake these the first time, so data persists as we flip between questions
+                        radioChoices = new RadioButton[numImages, NumChoices];
+                    }
                     for (int j = 0; j < NumChoices; j++)
                     {
-                        radioChoices[i,j] = new RadioButton();
+                        if (radioChoices[i, j] == null)
+                        {
+                            //again, we only want to make these once, so their data persists
+                            radioChoices[i, j] = new RadioButton();
+                            radioChoices[i, j].Content = choiceLabels[j];
+                            radioChoices[i, j].Margin = new Thickness(5);
+                        }
                         questionStackPanel[i].Children.Add(radioChoices[i,j]);
-                        radioChoices[i, j].Content = choiceLabels[j];
-                        //radioChoices[i,j].Content = "" + (j + 1);
-                        radioChoices[i,j].Margin = new Thickness(5);
                     }
                 }
 
@@ -144,7 +154,6 @@ namespace SurveyTool
                 for (int i = 0; i < numImages; i++)
                 {
                     questionPane.Children.Add(questionStackPanel[i]);
-                    //Grid.SetColumn(questionPane, i);
 
                     questionStackPanel[i].SetValue(Grid.ColumnProperty, currCol);
                     questionStackPanel[i].SetValue(Grid.RowProperty, currRow);
