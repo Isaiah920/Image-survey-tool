@@ -120,12 +120,25 @@ namespace SurveyTool
 
         private void StartSurveyButton_Click(object sender, RoutedEventArgs e)
         {
+            //System.Windows.
+            System.Windows.Window newWindow = new System.Windows.Window();
+            newWindow.WindowStyle = System.Windows.WindowStyle.None;
+            newWindow.WindowState = System.Windows.WindowState.Maximized;
+            newWindow.Background = Brushes.Gray;
+            newWindow.Show();
+            newWindow.Focusable = false;
+            //newWindow.IsActive = false;
+            //newWindow.c
+
             MainWindow win = new MainWindow();
+            //newWindow.
             win.InitializeImageList(imageSets);
             win.TotalNumQuestions = numQuestions;
+            win.GreyBackgroundWindow = newWindow;
             win.StartDisplaying();
             //win.InitializeList(x);
             win.Show();
+            win.Topmost = true;
             win.Activate();
         }
     }

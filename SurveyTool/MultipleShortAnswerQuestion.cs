@@ -12,15 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
 
 namespace SurveyTool
 {
+    [Serializable]
     class MultipleShortAnswerQuestion:IQuestions
     {
         private string questionString;
         private int numImages;
         TextBox[] imageTextbox;
         StackPanel[] questionStackPanel;
+
+        //this is what we save when we save this type of question's results:
+        //[Serializable]
+        private string[] answer { get { return imageTextbox.Where(t => !string.IsNullOrEmpty(t.Text)).Select(t => t.Text).ToArray(); } }
 
         public bool Display(Grid questionPane)
         {
@@ -129,6 +135,12 @@ namespace SurveyTool
             numImages = num;
             return true;
         }
-        //public void ClearGrid(
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            for (int i = 0; i < numImages; i++)
+            {
+                info.AddValue("Answer"+i, imageTextbox[i].Text);
+            }
+        }
     }
 }

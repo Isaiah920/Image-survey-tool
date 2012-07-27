@@ -12,17 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace SurveyTool
 {
-    class ShortAnswerQuestion:IQuestions
+    [Serializable]
+    class ShortAnswerQuestion:IQuestions, ISerializable
     {
-        private string questionString;
         private int numImages;
-        TextBox imageTextbox;
+        private TextBox imageTextbox;
+        private string questionString;
+
+        //this is what we save when we save this type of question's results:
+        //[Serializable]
+        private string answer { get { return imageTextbox.Text; } }
+
+
         public bool Display(Grid questionPane)
         {
-
             RowDefinition row = new RowDefinition();
             row.Height = new GridLength(30);
             questionPane.RowDefinitions.Add(row);
@@ -81,6 +89,11 @@ namespace SurveyTool
         {
             numImages = num;
             return true;
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            info.AddValue("Answer", answer);
         }
     }
 }

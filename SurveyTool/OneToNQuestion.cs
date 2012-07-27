@@ -12,10 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
 
 
 namespace SurveyTool
 {
+    [Serializable]
     public class OneToNQuestion:IQuestions
     {
 
@@ -31,6 +33,10 @@ namespace SurveyTool
             {
                 get { return choiceLabels.AsReadOnly(); }
             }
+
+            //this is what we save when we save this type of question's results:
+            //[Serializable]
+            private int[] answer { get { return getRadioButtonAnswers(); } }
 
         #endregion
 
@@ -68,6 +74,19 @@ namespace SurveyTool
 
         #region Public Methods
 
+            //for when we need to find the selected results:
+            public int[] getRadioButtonAnswers()
+            {
+                int[] results = new int[numImages];
+                for (int i=0; i<numImages; i++)
+                {
+                    for (int j=0; j<NumChoices; j++)
+                    {
+                        if (radioChoices[i,j].IsChecked == true) results[i] = j;
+                    }
+                }
+                return results;
+            }
             public bool SetChoiceLabel(int index, string label)
             {
                 if (index >= 0 && index < NumChoices)
@@ -214,7 +233,21 @@ namespace SurveyTool
                 numImages = num;
                 return true;
             }
-
+            public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+            {
+                    for (int i = 0; i < numImages; i++)
+                    {
+                        for (int j = 0; j < NumChoices; j++)
+                        {
+                            if (radioChoices[i, j].IsChecked == true)
+                            {
+                                info.AddValue("Answer" + i, j);
+                            }
+                        }
+                    }
+                    
+                
+            }
 
         #endregion
 

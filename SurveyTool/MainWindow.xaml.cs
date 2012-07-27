@@ -31,6 +31,7 @@ namespace SurveyTool
         int currImageSet = -1;
         int currQuestion = -1;
         public int TotalNumQuestions { get; set; }
+        public Window GreyBackgroundWindow;
 
         ImageViewer[] imView;
         List<ImageSet> imageSetList = new List<ImageSet>();
@@ -45,6 +46,9 @@ namespace SurveyTool
         }
         public void StartDisplaying()
         {
+            
+            //newWindow.
+
             displayNextQuestion();
             QuestionProgressBar.Maximum = TotalNumQuestions;
             updateCurrQuestionLabel();
@@ -52,6 +56,7 @@ namespace SurveyTool
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
         }
         private void updateCurrQuestionLabel()
         {
@@ -168,8 +173,11 @@ namespace SurveyTool
                     imView[i].Width = width;
                 }
                 imView[i].Height = (height - 200) / numRows;
+
                 imView[i].Show();
-                imView[i].Activate();
+                imView[i].Topmost = true;
+                //imView[i].Owner = this;
+                //imView[i].Activate();
 
                 if (currCol == 1)
                 {
@@ -189,6 +197,7 @@ namespace SurveyTool
             {
                 iv.Close();
             }
+            GreyBackgroundWindow.Close();
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
