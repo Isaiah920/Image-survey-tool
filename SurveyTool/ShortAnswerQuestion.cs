@@ -95,5 +95,11 @@ namespace SurveyTool
         {
             info.AddValue("Answer", answer);
         }
+
+        public bool IsAnswered()
+        {
+            if (imageTextbox.Text == "") return false; //empty textbox, so unanswered
+            return true; //filled in
+        }
     }
 }

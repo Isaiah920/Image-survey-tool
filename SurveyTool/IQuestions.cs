@@ -17,5 +17,7 @@ namespace SurveyTool
 
         int GetNumImages();
         bool SetNumImages(int num);
+
+        bool IsAnswered();
     }
 }

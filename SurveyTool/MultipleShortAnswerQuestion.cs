@@ -142,5 +142,13 @@ namespace SurveyTool
                 info.AddValue("Answer"+i, imageTextbox[i].Text);
             }
         }
+        public bool IsAnswered()
+        {
+            for (int i = 0; i < numImages; i++)
+            {
+                if (imageTextbox[i].Text == "") return false; //empty textbox, so unanswered
+            }
+            return true; //everything's filled in
+        }
     }
 }

@@ -235,18 +235,35 @@ namespace SurveyTool
             }
             public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
             {
-                    for (int i = 0; i < numImages; i++)
+                for (int i = 0; i < numImages; i++)
+                {
+                    for (int j = 0; j < NumChoices; j++)
                     {
-                        for (int j = 0; j < NumChoices; j++)
+                        if (radioChoices[i, j].IsChecked == true)
                         {
-                            if (radioChoices[i, j].IsChecked == true)
-                            {
-                                info.AddValue("Answer" + i, j);
-                            }
+                            info.AddValue("Answer" + i, j);
                         }
                     }
-                    
-                
+                } 
+            }
+            public bool IsAnswered()
+            {
+                for (int i = 0; i < numImages; i++)
+                {
+                    if (getAnswer(i) == null) return false;
+                }
+                return true;
+            }
+            private int? getAnswer(int imageNum)
+            {
+                for (int j = 0; j < NumChoices; j++)
+                {
+                    if (radioChoices[imageNum, j].IsChecked == true)
+                    {
+                        return j; //our answer
+                    }
+                }
+                return null; //couldn't find anything checked, so it hasn't been answered
             }
 
         #endregion
