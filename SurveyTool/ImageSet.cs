@@ -29,6 +29,21 @@ namespace SurveyTool
             {
                 get { return imagePath.Count; }
             }
+            public List<int> UnansweredQuestionsList
+            {
+                get
+                {
+                    List<int> unanswered = new List<int>();
+                    for(int i=0; i<questionList.Count; i++)
+                    {
+                        if (!questionList[i].IsAnswered())
+                        {
+                            unanswered.Add(i); //add to unanswered list
+                        }
+                    }
+                    return unanswered;
+                }
+            }
 
         #endregion
         

@@ -204,11 +204,44 @@ namespace SurveyTool
         {
             if (currQuestion == TotalNumQuestions - 1)
             {
-                //this is our very last one! Prompt to submit survey:
-                MessageBoxResult savePrompt = MessageBox.Show("Thank you for completing this suvey!\nAre you sure you want to submit your results now?", "Submit survey?", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                if (savePrompt == MessageBoxResult.OK)
+                //we've reached the end, but we might have missed answering a question -- check:
+                List<int> unansweredList = new List<int>();
+                List<int> currUnansweredList = new List<int>();
+                int currListFirstQuestionNumber = 1; //as far as the user is concerned, the first question is #1
+                foreach (ImageSet imSet in imageSetList)
                 {
-                    serializeData();
+                    currUnansweredList = imSet.UnansweredQuestionsList;
+                    for (int i=0; i<currUnansweredList.Count; i++)//j in currUnansweredList)
+                    {
+                        currUnansweredList[i]+=currListFirstQuestionNumber; //translate from relative question number (for that set) to overall number
+                    }
+                    unansweredList.AddRange(currUnansweredList);
+                    currListFirstQuestionNumber += imSet.NumQuestions;
+                }
+
+                if (unansweredList.Count != 0)
+                {
+                    //we've reached the end, but we missed a question! Prompt to fix:
+
+                    //first niceify the message:
+                    List<string> unansweredMessageList = unansweredList.ConvertAll<string>(x => x.ToString());
+                    for (int i = 0; i < unansweredList.Count - 1; i++)
+                    {
+                        unansweredMessageList[i] += ", "; //in a list of 2+, add commas after all but the last one
+                    }
+                    //check if we have >1 item in our list, and tack the appropriate plural form of question(s) to the front of the first string:
+                    unansweredMessageList[0] = (unansweredMessageList.Count >1)? "questions " + unansweredMessageList[0] : "question " + unansweredMessageList[0];
+
+                    MessageBoxResult savePrompt = MessageBox.Show("You've reached the end of the survey!\nPlease go back and complete " + string.Concat(unansweredMessageList.ToArray()) + " before submitting.  Thanks!", "Unanswered Questions", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                }
+                else
+                {
+                    //this is our very last one! Prompt to submit survey:
+                    MessageBoxResult savePrompt = MessageBox.Show("Thank you for completing this suvey!\nAre you sure you want to submit your results now?", "Submit survey?", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                    if (savePrompt == MessageBoxResult.OK)
+                    {
+                        serializeData();
+                    }
                 }
             }
             else
