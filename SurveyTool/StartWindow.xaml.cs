@@ -23,10 +23,44 @@ namespace SurveyTool
     {
         int numQuestions = 0;
         int numImageSets = 0;
+        bool validSurveyLoaded = false;
 
         public StartWindow()
         {
             InitializeComponent();
+
+            //initialize command bindings:
+            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed, Save_CanExecute));
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            //System.Windows.
+            System.Windows.Window newWindow = new System.Windows.Window();
+            newWindow.WindowStyle = System.Windows.WindowStyle.None;
+            newWindow.WindowState = System.Windows.WindowState.Maximized;
+            newWindow.Background = Brushes.Gray;
+            newWindow.Show();
+            newWindow.Focusable = false;
+            //newWindow.IsActive = false;
+            //newWindow.c
+
+            MainWindow win = new MainWindow();
+            //newWindow.
+            win.InitializeImageList(imageSets);
+            win.TotalNumQuestions = numQuestions;
+            win.GreyBackgroundWindow = newWindow;
+            win.StartDisplaying();
+            //win.InitializeList(x);
+            win.Show();
+            win.Topmost = true;
+            win.Activate();
+        }
+
+        private void Save_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = PersonalInfo.DataIsValid && validSurveyLoaded;
+            e.Handled = true;
         }
 
         //TODO: must be public to pass it along to other stuff later, since reference object... probably not a good thing
@@ -112,13 +146,13 @@ namespace SurveyTool
 
                 SurveyTextBox.Text = file;
                 SurveySelectTextBlock.Text = "The survey has been loaded successfully.";
-
+                validSurveyLoaded = true; //now we can click the Start Survey button
             }
             
         }
         private int x = 2;
 
-        private void StartSurveyButton_Click(object sender, RoutedEventArgs e)
+        /*private void StartSurveyButton_Click(object sender, RoutedEventArgs e)
         {
             //System.Windows.
             System.Windows.Window newWindow = new System.Windows.Window();
@@ -140,6 +174,16 @@ namespace SurveyTool
             win.Show();
             win.Topmost = true;
             win.Activate();
+        }*/
+
+        private void VisionProblemsNoRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            VisionProblemsTextbox.IsEnabled = false;
+        }
+
+        private void VisionProblemsYesRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            VisionProblemsTextbox.IsEnabled = true;
         }
     }
 }

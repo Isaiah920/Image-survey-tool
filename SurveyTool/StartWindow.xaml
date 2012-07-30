@@ -1,35 +1,105 @@
 ﻿<Window x:Class="SurveyTool.StartWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="RIM Image Survey Tool" Height="535" Width="650" Icon="/SurveyTool;component/Images/comment_add_48.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="RIM Image Survey Tool" Height="535" Width="650" Icon="/SurveyTool;component/Images/comment_add_48.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        xmlns:src="clr-namespace:SurveyTool">
+    
+    <Window.Resources>
+        <src:PersonalInfo x:Key="data"/>
+
+        <!--The tool tip for the TextBox to display the validation error message.-->
+        <Style x:Key="textBoxInError" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
+    <Window.CommandBindings>
+        <CommandBinding Command="Save" 
+                        Executed="Save_Executed" CanExecute="Save_CanExecute"/>
+    </Window.CommandBindings>
+    
     <Grid Height="491">
         <Label Content="Select Survey" Height="43" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Top" Width="214" FontSize="16" VerticalContentAlignment="Center" FontWeight="Bold" Margin="10,8,404,0" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="100,56,0,0" Name="SurveyTextBox" VerticalAlignment="Top" Width="403" IsEnabled="False" />
         <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="509,55,0,0" Name="FileBrowseButton" VerticalAlignment="Top" Width="99" Click="FileBrowseButton_Click" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="266,164,0,0" Name="textBox2" VerticalAlignment="Top" Width="342" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="266,164,0,0" Name="NameTextBox" VerticalAlignment="Top" Width="342" Style="{StaticResource textBoxInError}">
+            <TextBox.Text>
+                <!-- Setting the ValidatesOnDataErrors to true enables to the Binding to check for
+                    errors raised by the IDataErrorInfo implementation.-->
+                <Binding Path="Name" Source="{StaticResource data}"
+                         ValidatesOnDataErrors="True"   
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <!-- Checks for exceptions during the setting of the source property.-->
+                        <ExceptionValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
         <Label Content="Personal Information" FontSize="16" Height="43" HorizontalAlignment="Center" Margin="11,122,369,0" Name="label4" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="249" FontWeight="Bold" />
         <Label Content="Name" Height="28" HorizontalAlignment="Left" Margin="95,162,0,0" Name="label2" VerticalAlignment="Top" FontWeight="Bold" />
         <Label Content="Department" Height="28" HorizontalAlignment="Left" Margin="95,196,0,0" Name="label5" VerticalAlignment="Top" FontWeight="Bold" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="266,198,0,0" Name="textBox3" VerticalAlignment="Top" Width="342" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="266,198,0,0" Name="DeptTextBox" VerticalAlignment="Top" Width="342" Style="{StaticResource textBoxInError}">
+            <TextBox.Text>
+                <!-- Setting the ValidatesOnDataErrors to true enables to the Binding to check for
+                    errors raised by the IDataErrorInfo implementation.-->
+                <Binding Path="Dept" Source="{StaticResource data}"
+                         ValidatesOnDataErrors="True"   
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <!-- Checks for exceptions during the setting of the source property.-->
+                        <ExceptionValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
         <Label Content="Image Quality Experience" Height="28" HorizontalAlignment="Left" Margin="95,330,0,0" Name="label6" VerticalAlignment="Top" FontWeight="Bold" />
-        <RadioButton Content="Novice" Height="16" HorizontalAlignment="Left" Margin="266,335,0,0" Name="radioButton1" VerticalAlignment="Top" />
-        <RadioButton Content="Moderate Experience" Height="16" HorizontalAlignment="Left" Margin="338,335,0,0" Name="radioButton2" VerticalAlignment="Top" />
-        <RadioButton Content="Expert" Height="16" HorizontalAlignment="Right" Margin="0,335,93,0" Name="radioButton3" VerticalAlignment="Top" />
-        <Button Content="Start Survey" Height="23" HorizontalAlignment="Left" Margin="509,450,0,0" Name="StartSurveyButton" VerticalAlignment="Top" Width="99" Click="StartSurveyButton_Click" />
+        <Button Content="Start Survey" Command="ApplicationCommands.Save" Height="23" HorizontalAlignment="Left" Margin="509,450,0,0" Name="StartSurveyButton" VerticalAlignment="Top" Width="99">
+
+        </Button>
         <Image Height="70" HorizontalAlignment="Left" Margin="21,45,0,0" Name="image1" Stretch="None" VerticalAlignment="Top" Width="70" Source="/SurveyTool;component/Images/comment_add_48.png" />
         <Image Height="70" HorizontalAlignment="Left" Margin="21,164,0,0" Name="image3" Source="/SurveyTool;component/Images/users_two_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
         <Label Content="Other Info" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,230,0,0" Name="label7" VerticalAlignment="Top" />
-        <TextBox Height="26" HorizontalAlignment="Left" Margin="266,232,0,0" Name="textBox4" VerticalAlignment="Top" Width="342" />
+        <TextBox Height="26" HorizontalAlignment="Left" Margin="266,232,0,0" Name="OtherInfoTextBox" VerticalAlignment="Top" Width="342" />
         <TextBlock Height="49" HorizontalAlignment="Left" Margin="100,84,0,0" Name="SurveySelectTextBlock" Text="Please select a valid survey file (*.xls)." VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Width="508" />
         <Label Content="Age" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,264,0,0" Name="label3" VerticalAlignment="Top" />
         <Label Content="Vision Problems?" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,364,0,0" Name="label8" VerticalAlignment="Top" />
-        <TextBox Height="26" HorizontalAlignment="Left" Margin="266,266,0,0" Name="textBox1" VerticalAlignment="Top" Width="90" />
-        <RadioButton Content="No" Height="16" HorizontalAlignment="Left" Margin="266,369,0,0" Name="radioButton4" VerticalAlignment="Top" />
-        <RadioButton Content="Yes, as described:" Height="16" HorizontalAlignment="Left" Margin="338,369,0,0" Name="radioButton5" VerticalAlignment="Top" />
-        <TextBox Height="26" HorizontalAlignment="Left" Margin="338,391,0,0" Name="textBox5" VerticalAlignment="Top" Width="270" />
+        <TextBox Height="26" HorizontalAlignment="Left" Margin="266,266,0,0" Name="AgeTextBox" VerticalAlignment="Top" Width="90" MaxLength="3" Style="{StaticResource textBoxInError}">
+            <TextBox.Text>
+                <!-- Setting the ValidatesOnDataErrors to true enables to the Binding to check for
+                    errors raised by the IDataErrorInfo implementation.-->
+                <Binding Path="Age" Source="{StaticResource data}"
+                         ValidatesOnDataErrors="True"   
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <!-- Checks for exceptions during the setting of the source property.-->
+                        <ExceptionValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox Height="26" HorizontalAlignment="Left" Margin="323,393,0,0" Name="VisionProblemsTextbox" VerticalAlignment="Top" Width="285" IsEnabled="False" />
         <Label Content="Gender" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,297,0,0" Name="label9" VerticalAlignment="Top" />
-        <RadioButton Content="Male" Height="16" HorizontalAlignment="Left" Margin="266,302,0,0" Name="radioButton6" VerticalAlignment="Top" />
-        <RadioButton Content="Female" Height="16" HorizontalAlignment="Left" Margin="338,302,0,0" Name="radioButton7" VerticalAlignment="Top" />
-        <RadioButton Content="Prefer not to say" Height="16" HorizontalAlignment="Left" Margin="420,302,0,0" Name="radioButton8" VerticalAlignment="Top" />
+        <StackPanel Height="23" HorizontalAlignment="Left" Margin="266,298,0,0" Name="stackPanel1" VerticalAlignment="Top" Width="342" Orientation="Horizontal">
+            <RadioButton Content="Male" Height="16" Name="radioButton6" GroupName="GenderRadioButtons" Padding="4,0,25,0" IsChecked="True" />
+            <RadioButton Content="Female" Height="16" Name="radioButton7" GroupName="GenderRadioButtons" Padding="4,0,25,0" />
+            <RadioButton Content="Prefer not to say" Height="16" Name="radioButton8" GroupName="GenderRadioButtons"/>
+        </StackPanel>
+        <StackPanel Height="21" HorizontalAlignment="Left" Margin="266,332,0,0" Name="stackPanel2" VerticalAlignment="Top" Width="342" Orientation="Horizontal">
+            <RadioButton GroupName="ExperienceRadioButtons" Content="Novice" Height="16" Name="radioButton1" Padding="4,0,25,0" IsChecked="True" />
+            <RadioButton GroupName="ExperienceRadioButtons" Content="Moderate Experience" Height="16" Name="radioButton2" Padding="4,0,25,0" />
+            <RadioButton GroupName="ExperienceRadioButtons" Content="Expert" Height="16" Name="radioButton3" />
+        </StackPanel>
+        <StackPanel Height="21" HorizontalAlignment="Left" Margin="266,366,0,0" Name="stackPanel3" VerticalAlignment="Top" Width="342" Orientation="Horizontal">
+            <RadioButton GroupName="VisionRadioButtons" Content="No" Height="16" Name="VisionProblemsNoRadioButton" Padding="4,0,25,0" IsChecked="True" Checked="VisionProblemsNoRadioButton_Checked" />
+            <RadioButton GroupName="VisionRadioButtons" Content="Yes, as described:" Height="16" Name="VisionProblemsYesRadioButton" Checked="VisionProblemsYesRadioButton_Checked" />
+        </StackPanel>
     </Grid>
 </Window>

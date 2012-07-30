@@ -90,7 +90,7 @@ namespace SurveyTool
                            
             //enable/disable previous and next buttons, depending on our position:
             currQuestion++;
-            NextButton.IsEnabled = currQuestion < TotalNumQuestions - 1;
+            //NextButton.IsEnabled = currQuestion < TotalNumQuestions - 1;
             PreviousButton.IsEnabled = currQuestion > 0; //false for first question
 
             x.Display(QuestionGrid);
@@ -202,7 +202,19 @@ namespace SurveyTool
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            displayNextQuestion();
+            if (currQuestion == TotalNumQuestions - 1)
+            {
+                //this is our very last one! Prompt to submit survey:
+                MessageBoxResult savePrompt = MessageBox.Show("Thank you for completing this suvey!\nAre you sure you want to submit your results now?", "Submit survey?", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                if (savePrompt == MessageBoxResult.OK)
+                {
+                    serializeData();
+                }
+            }
+            else
+            {
+                displayNextQuestion();
+            }
         }
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e)
@@ -210,5 +222,9 @@ namespace SurveyTool
             displayPreviousQuestion();
         }
 
+        private void serializeData()
+        {
+            this.Close();
+        }
     }
 }
