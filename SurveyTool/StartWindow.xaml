@@ -6,7 +6,8 @@
     
     <Window.Resources>
         <src:PersonalInfo x:Key="data"/>
-
+        <src:RadioButtonEnumConverter x:Key="RadioButtonEnumConverter" />
+        
         <!--The tool tip for the TextBox to display the validation error message.-->
         <Style x:Key="textBoxInError" TargetType="TextBox">
             <Style.Triggers>
@@ -43,9 +44,9 @@
             </TextBox.Text>
         </TextBox>
 
-        <Label Content="Personal Information" FontSize="16" Height="43" HorizontalAlignment="Center" Margin="11,122,369,0" Name="label4" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="249" FontWeight="Bold" />
-        <Label Content="Name" Height="28" HorizontalAlignment="Left" Margin="95,162,0,0" Name="label2" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Content="Department" Height="28" HorizontalAlignment="Left" Margin="95,196,0,0" Name="label5" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="Personal Information" FontSize="16" Height="43" HorizontalAlignment="Center" Margin="11,122,369,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="249" FontWeight="Bold" />
+        <Label Content="Name" Height="28" HorizontalAlignment="Left" Margin="95,162,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="Department" Height="28" HorizontalAlignment="Left" Margin="95,196,0,0" VerticalAlignment="Top" FontWeight="Bold" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="266,198,0,0" Name="DeptTextBox" VerticalAlignment="Top" Width="342" Style="{StaticResource textBoxInError}">
             <TextBox.Text>
                 <!-- Setting the ValidatesOnDataErrors to true enables to the Binding to check for
@@ -60,14 +61,16 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <Label Content="Image Quality Experience" Height="28" HorizontalAlignment="Left" Margin="95,330,0,0" Name="label6" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="Image Quality Experience" Height="28" HorizontalAlignment="Left" Margin="95,330,0,0" VerticalAlignment="Top" FontWeight="Bold" />
         <Button Content="Start Survey" Command="ApplicationCommands.Save" Height="23" HorizontalAlignment="Left" Margin="509,450,0,0" Name="StartSurveyButton" VerticalAlignment="Top" Width="99">
 
         </Button>
         <Image Height="70" HorizontalAlignment="Left" Margin="21,45,0,0" Name="image1" Stretch="None" VerticalAlignment="Top" Width="70" Source="/SurveyTool;component/Images/comment_add_48.png" />
         <Image Height="70" HorizontalAlignment="Left" Margin="21,164,0,0" Name="image3" Source="/SurveyTool;component/Images/users_two_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
         <Label Content="Other Info" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,230,0,0" Name="label7" VerticalAlignment="Top" />
-        <TextBox Height="26" HorizontalAlignment="Left" Margin="266,232,0,0" Name="OtherInfoTextBox" VerticalAlignment="Top" Width="342" />
+        <TextBox Height="26" HorizontalAlignment="Left" Margin="266,232,0,0" Name="OtherInfoTextBox" VerticalAlignment="Top" Width="342" >
+            <Binding Path="OtherInfo" Source="{StaticResource data}"/>
+        </TextBox>
         <TextBlock Height="49" HorizontalAlignment="Left" Margin="100,84,0,0" Name="SurveySelectTextBlock" Text="Please select a valid survey file (*.xls)." VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Width="508" />
         <Label Content="Age" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,264,0,0" Name="label3" VerticalAlignment="Top" />
         <Label Content="Vision Problems?" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,364,0,0" Name="label8" VerticalAlignment="Top" />
@@ -85,21 +88,23 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBox Height="26" HorizontalAlignment="Left" Margin="323,393,0,0" Name="VisionProblemsTextbox" VerticalAlignment="Top" Width="285" IsEnabled="False" />
+        <TextBox Height="26" HorizontalAlignment="Left" Margin="323,393,0,0" Name="VisionProblemsTextbox" VerticalAlignment="Top" Width="285" IsEnabled="False" >
+            <Binding Path="VisionProblemsDescription" Source="{StaticResource data}"/>
+        </TextBox>
         <Label Content="Gender" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,297,0,0" Name="label9" VerticalAlignment="Top" />
         <StackPanel Height="23" HorizontalAlignment="Left" Margin="266,298,0,0" Name="stackPanel1" VerticalAlignment="Top" Width="342" Orientation="Horizontal">
-            <RadioButton Content="Male" Height="16" Name="radioButton6" GroupName="GenderRadioButtons" Padding="4,0,25,0" IsChecked="True" />
-            <RadioButton Content="Female" Height="16" Name="radioButton7" GroupName="GenderRadioButtons" Padding="4,0,25,0" />
-            <RadioButton Content="Prefer not to say" Height="16" Name="radioButton8" GroupName="GenderRadioButtons"/>
+            <RadioButton Content="Male" IsChecked="{Binding Source={StaticResource data}, Path=Gender, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:GenderEnum.Male}}" Height="16" Padding="4,0,25,0" />
+            <RadioButton Content="Female" IsChecked="{Binding Source={StaticResource data}, Path=Gender, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:GenderEnum.Female}}" Height="16" Padding="4,0,25,0" />
+            <RadioButton Content="Prefer not to say" IsChecked="{Binding Source={StaticResource data}, Path=Gender, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:GenderEnum.Undisclosed}}" Height="16" Padding="4,0,25,0" />
         </StackPanel>
         <StackPanel Height="21" HorizontalAlignment="Left" Margin="266,332,0,0" Name="stackPanel2" VerticalAlignment="Top" Width="342" Orientation="Horizontal">
-            <RadioButton GroupName="ExperienceRadioButtons" Content="Novice" Height="16" Name="radioButton1" Padding="4,0,25,0" IsChecked="True" />
-            <RadioButton GroupName="ExperienceRadioButtons" Content="Moderate Experience" Height="16" Name="radioButton2" Padding="4,0,25,0" />
-            <RadioButton GroupName="ExperienceRadioButtons" Content="Expert" Height="16" Name="radioButton3" />
+            <RadioButton Content="Novice" IsChecked="{Binding Source={StaticResource data}, Path=Experience, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:ExperienceEnum.Novice}}" Height="16" Padding="4,0,25,0" />
+            <RadioButton Content="Moderate Experience" IsChecked="{Binding Source={StaticResource data}, Path=Experience, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:ExperienceEnum.Moderate}}" Height="16" Padding="4,0,25,0" />
+            <RadioButton Content="Expert" IsChecked="{Binding Source={StaticResource data}, Path=Experience, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:ExperienceEnum.Expert}}" Height="16" Padding="4,0,25,0" />
         </StackPanel>
         <StackPanel Height="21" HorizontalAlignment="Left" Margin="266,366,0,0" Name="stackPanel3" VerticalAlignment="Top" Width="342" Orientation="Horizontal">
-            <RadioButton GroupName="VisionRadioButtons" Content="No" Height="16" Name="VisionProblemsNoRadioButton" Padding="4,0,25,0" IsChecked="True" Checked="VisionProblemsNoRadioButton_Checked" />
-            <RadioButton GroupName="VisionRadioButtons" Content="Yes, as described:" Height="16" Name="VisionProblemsYesRadioButton" Checked="VisionProblemsYesRadioButton_Checked" />
+            <RadioButton Content="No" IsChecked="{Binding Source={StaticResource data}, Path=VisionProblems, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:VisionProblemsEnum.No}}" Height="16" Padding="4,0,25,0" Checked="VisionProblemsNoRadioButton_Checked"/>
+            <RadioButton Content="Yes, as described:" IsChecked="{Binding Source={StaticResource data}, Path=VisionProblems, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:VisionProblemsEnum.Yes}}" Height="16" Padding="4,0,25,0" Checked="VisionProblemsYesRadioButton_Checked"/>
         </StackPanel>
     </Grid>
 </Window>

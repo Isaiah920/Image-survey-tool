@@ -8,27 +8,43 @@ using System.Runtime.Serialization;
 
 namespace SurveyTool
 {
-    public class PersonalInfo : IDataErrorInfo//, ISerializable
+    public enum GenderEnum
+    {
+        Male,
+        Female,
+        Undisclosed
+    }
+    public enum VisionProblemsEnum
+    {
+        No,
+        Yes
+    }
+    public enum ExperienceEnum
+    {
+        Novice,
+        Moderate,
+        Expert
+    }
+
+    public class PersonalInfo : IDataErrorInfo, ISerializable
     {
 
         #region Fields
 
-        //updated in realtime using binding, for validation purposes
+        //updated in realtime using binding
+        
+        //validated:
         private int? age;
         private string name;
         private string dept;
         private int numValidatedTextboxes = 3;
 
-        //the radio buttons aren't hooked in with databinding currently, due to the fact that working around a weird WPF behaviour 
-        //(where the binding "disappears" when a value is set to unselected) is probably more ugly than just using the old-fashioned
-        //check-the-form-before-saving-values way (this checking is prompted by calling UpdateFromCurrentRadioButtonValues() )
-        //possible TODO: look into binding ways of doing this that are not too ugly
+        //bound using RadioButtonEnumConverter as a dataconverter:
         private int gender;
         private int experience;
-        private int vision;
-        private string visionProblemsDescription;
+        private bool vision;
 
-        //keep track of the problems we saw:
+        //keep track of the problems we saw when validating:
         private static byte hasProblems = 0; //each bit is one value being used for the check;
                                              //overall value must be 0 for everything to be valid
         private byte[] checkNumbers = new byte[8]; //used to store 1, 2...2^8
@@ -46,18 +62,26 @@ namespace SurveyTool
             get { return age; }
             set { age = value; }
         }
-
         public string Name
         {
             get { return name; }
             set { name = value; }
         }
-
         public string Dept
         {
             get { return dept; }
             set { dept = value; }
         }
+        public string OtherInfo 
+        { 
+            get; 
+            set; 
+        }
+        public string VisionProblemsDescription { get; set; }
+
+        public GenderEnum Gender { get; set; }
+        public VisionProblemsEnum VisionProblems { get; set; }
+        public ExperienceEnum Experience { get; set; }
 
         #endregion
 
@@ -75,15 +99,15 @@ namespace SurveyTool
             
         }
 
-        
-
-        
-        
-
-
-
-        public void UpdateFromCurrentRadioButtonValues()
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
+            info.AddValue("Name", name);
+            info.AddValue("Dept", dept);
+            info.AddValue("OtherInfo", OtherInfo);
+            info.AddValue("Age", age);
+            info.AddValue("Gender", gender);
+            info.AddValue("VisionProblems", vision);
+            if (vision) info.AddValue("VisionProblemsDescription", VisionProblemsDescription);
         }
 
     #region Validation methods

@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="ImageSet.cs" />
     <Compile Include="PersonalInfo.cs" />
+    <Compile Include="RadioButtonEnumConverter.cs" />
     <Compile Include="ShortAnswerQuestion.cs" />
     <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
