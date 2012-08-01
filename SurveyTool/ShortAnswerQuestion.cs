@@ -15,10 +15,14 @@ using System.Windows.Shapes;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+
 namespace SurveyTool
 {
     [Serializable]
-    class ShortAnswerQuestion:IQuestions, ISerializable
+    class ShortAnswerQuestion:IQuestions, IXmlSerializable
     {
         private int numImages;
         private TextBox imageTextbox;
@@ -91,9 +95,28 @@ namespace SurveyTool
             return true;
         }
 
+        /*
         public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
             info.AddValue("Answer", answer);
+        }
+         */
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteAttributeString("Type", "ShortAnswerQuestion");
+            writer.WriteAttributeString("NumImages", ""+numImages);
+            writer.WriteAttributeString("QuestionString", questionString);
+            writer.WriteElementString("Answer", answer);                    
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            //personName = reader.ReadString();
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return (null);
         }
 
         public bool IsAnswered()

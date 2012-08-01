@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+
+using System.Xml;
+using System.Xml.Serialization;
+using System.Xml.Schema;
 
 namespace SurveyTool
 {
-    public class ImageSet
+    [Serializable]
+    public class ImageSet : IXmlSerializable
     {
         private List<IQuestions> questionList = new List<IQuestions>();
         private List<String> imagePath = new List<string>();
@@ -52,6 +58,39 @@ namespace SurveyTool
             public ImageSet()
             {
 
+            }
+
+        /*
+            public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+            {
+
+            }*/
+
+            public void WriteXml(XmlWriter writer)
+            {
+                writer.WriteStartElement("ImageSet");
+                for (int i = 0; i < NumImages; i++)
+                {
+                    writer.WriteAttributeString("Image", imagePath[i]);       
+                }
+                for (int i = 0; i < NumQuestions; i++)
+                {
+                    writer.WriteStartElement("Question");
+                    questionList[i].WriteXml(writer);
+                    writer.WriteEndElement();
+                    //info.AddValue("Question"+i, questionList[i]);
+                }
+                writer.WriteEndElement();
+            }
+
+            public void ReadXml(XmlReader reader)
+            {
+                //personName = reader.ReadString();
+            }
+
+            public XmlSchema GetSchema()
+            {
+                return (null);
             }
 
             public void AddQuestion(IQuestions question)

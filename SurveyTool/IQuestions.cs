@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Schema;
+
 namespace SurveyTool
 {
-    public interface IQuestions
+    public interface IQuestions:IXmlSerializable
     {
         bool Display(Grid questionPane); //System.Windows.UIElement
         bool Cleanup();
@@ -19,5 +23,9 @@ namespace SurveyTool
         bool SetNumImages(int num);
 
         bool IsAnswered();
+
+        void WriteXml(XmlWriter writer);
+        void ReadXml(XmlReader reader);
+        XmlSchema GetSchema();
     }
 }

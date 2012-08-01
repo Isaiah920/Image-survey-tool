@@ -26,6 +26,7 @@ namespace SurveyTool
         Expert
     }
 
+    [Serializable]
     public class PersonalInfo : IDataErrorInfo, ISerializable
     {
 

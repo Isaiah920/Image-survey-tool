@@ -12,13 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Runtime.Serialization;
 
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace SurveyTool
 {
     [Serializable]
-    public class OneToNQuestion:IQuestions
+    public class OneToNQuestion:IQuestions, IXmlSerializable
     {
 
         #region Properties
@@ -233,7 +236,8 @@ namespace SurveyTool
                 numImages = num;
                 return true;
             }
-            public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+            
+        /*public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
             {
                 for (int i = 0; i < numImages; i++)
                 {
@@ -245,7 +249,37 @@ namespace SurveyTool
                         }
                     }
                 } 
+            }*/
+
+            public void WriteXml(XmlWriter writer)
+            {
+                
+                writer.WriteAttributeString("Type", "OneToNQuestion");
+                writer.WriteAttributeString("NumImages", ""+numImages);
+                writer.WriteAttributeString("QuestionString", questionString);
+                for (int i = 0; i < numImages; i++)
+                {
+                    for (int j = 0; j < NumChoices; j++)
+                    {
+                        if (radioChoices[i, j].IsChecked == true)
+                        {
+                            writer.WriteElementString("Answer" + i, ""+j);
+                        }
+                    }
+                } 
             }
+
+            public void ReadXml(XmlReader reader)
+            {
+                //personName = reader.ReadString();
+            }
+
+            public XmlSchema GetSchema()
+            {
+                return (null);
+            }
+
+
             public bool IsAnswered()
             {
                 for (int i = 0; i < numImages; i++)

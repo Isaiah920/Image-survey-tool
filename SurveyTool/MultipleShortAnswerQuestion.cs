@@ -14,10 +14,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.Serialization;
 
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Schema;
+
 namespace SurveyTool
 {
     [Serializable]
-    class MultipleShortAnswerQuestion:IQuestions
+    class MultipleShortAnswerQuestion:IQuestions, IXmlSerializable
     {
         private string questionString;
         private int numImages;
@@ -142,6 +146,27 @@ namespace SurveyTool
                 info.AddValue("Answer"+i, imageTextbox[i].Text);
             }
         }
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteAttributeString("Type", "MultipleShortAnswerQuestion");
+            writer.WriteAttributeString("NumImages", ""+numImages);
+            writer.WriteAttributeString("QuestionString", questionString);
+            for (int i = 0; i < numImages; i++)
+            {
+                writer.WriteElementString("Answer" + i , imageTextbox[i].Text);
+            }
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            //personName = reader.ReadString();
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return (null);
+        }
+
         public bool IsAnswered()
         {
             for (int i = 0; i < numImages; i++)

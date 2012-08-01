@@ -11,6 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace SurveyTool
 {
@@ -241,6 +246,7 @@ namespace SurveyTool
                     if (savePrompt == MessageBoxResult.OK)
                     {
                         serializeData();
+                        this.Close();
                     }
                 }
             }
@@ -257,7 +263,23 @@ namespace SurveyTool
 
         private void serializeData()
         {
-            this.Close();
+            Stream st = new FileStream(@"C:\test.txt", FileMode.Append);//File.OpenWrite(@"C:\test.txt");
+            //.
+           //treamWriter sw = new StreamWriter(@"C:\test.txt");
+            //MemoryStream ms = new MemoryStream();
+            //BinaryFormatter bf = new BinaryFormatter();
+            XmlSerializer ser = new XmlSerializer(typeof(ImageSet));
+            TextWriter writer = new StreamWriter(@"C:\test.xml");
+
+            //XmlSerlializerNamespaces xsn = new XmlSerializerNamespaces();
+
+            //bf.Serialize(st, PersonalInfo);
+            foreach (ImageSet ims in imageSetList)
+            {
+                ser.Serialize(writer, ims);
+            }
+            st.Close();
+            
         }
     }
 }
