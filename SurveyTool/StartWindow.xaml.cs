@@ -45,7 +45,7 @@ namespace SurveyTool
             //newWindow.IsActive = false;
             //newWindow.c
 
-            MainWindow win = new MainWindow();
+            MainWindow win = new MainWindow(this);
             //newWindow.
             win.InitializeImageList(imageSets);
             win.TotalNumQuestions = numQuestions;

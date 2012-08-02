@@ -1,0 +1,21 @@
+﻿<Window x:Class="SurveyTool.AnswerLoader"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RIM Image Survey Tool" Height="460" Width="650" Icon="/SurveyTool;component/Images/comment_add_48.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        xmlns:src="clr-namespace:SurveyTool">
+    <Grid Height="417">
+        <Label Content="Select Survey" Height="43" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Top" Width="214" FontSize="16" VerticalContentAlignment="Center" FontWeight="Bold" Margin="10,8,404,0" />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="100,56,0,0" Name="SurveyTextBox" VerticalAlignment="Top" Width="403" IsEnabled="False" />
+            <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="509,55,0,0" Name="FileBrowseButton" VerticalAlignment="Top" Width="99" />
+        <Label Content="Load Responses (*.xml)" FontSize="16" Height="43" HorizontalAlignment="Center" Margin="11,122,369,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="249" FontWeight="Bold" />
+        <Image Height="70" HorizontalAlignment="Left" Margin="21,45,0,0" Name="image1" Stretch="None" VerticalAlignment="Top" Width="70" Source="/SurveyTool;component/Images/comment_add_48.png" />
+        <Image Height="70" HorizontalAlignment="Left" Margin="21,156,0,0" Name="image3" Source="/SurveyTool;component/Images/folder_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
+        <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="100,171,0,0" Name="textBox1" VerticalAlignment="Top" Width="403" />
+        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="509,170,0,0" Name="button1" VerticalAlignment="Top" Width="99" />
+        <Label Content="Choose Result Export Path (*.xls)" FontSize="16" FontWeight="Bold" Height="43" HorizontalAlignment="Center" Margin="11,237,349,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="268" />
+        <Image Height="70" HorizontalAlignment="Left" Margin="22,278,0,0" Name="image2" Source="/SurveyTool;component/Images/floppy_disk_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
+        <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="100,286,0,0" Name="textBox2" VerticalAlignment="Top" Width="403" />
+        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="508,285,0,0" Name="button2" VerticalAlignment="Top" Width="99" />
+        <Button Command="ApplicationCommands.Save" Content="Save Results to Excel" Height="23" HorizontalAlignment="Left" Margin="479,383,0,0" Name="StartSurveyButton" VerticalAlignment="Top" Width="129" />
+    </Grid>
+</Window>

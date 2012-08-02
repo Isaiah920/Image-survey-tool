@@ -24,12 +24,14 @@ namespace SurveyTool
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        StartWindow startWindow;
+
+        public MainWindow(StartWindow parent)
         {
             InitializeComponent();
             //Grid x;
             //x.Children.Add(
-
+            startWindow = parent;
 
         }
         int currNumImages = 4;
@@ -268,12 +270,13 @@ namespace SurveyTool
            //treamWriter sw = new StreamWriter(@"C:\test.txt");
             //MemoryStream ms = new MemoryStream();
             //BinaryFormatter bf = new BinaryFormatter();
+            XmlSerializer personalSer = new XmlSerializer(typeof(PersonalInfo));
             XmlSerializer ser = new XmlSerializer(typeof(ImageSet));
             TextWriter writer = new StreamWriter(@"C:\test.xml");
 
             //XmlSerlializerNamespaces xsn = new XmlSerializerNamespaces();
 
-            //bf.Serialize(st, PersonalInfo);
+            personalSer.Serialize(writer, startWindow.Resources["data"]);//.Keys.
             foreach (ImageSet ims in imageSetList)
             {
                 ser.Serialize(writer, ims);
