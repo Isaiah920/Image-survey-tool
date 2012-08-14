@@ -15,7 +15,10 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters;
 using System.IO;
+
+using System.Xml;
 using System.Xml.Serialization;
+using System.Xml.Schema;
 
 namespace SurveyTool
 {
@@ -53,7 +56,7 @@ namespace SurveyTool
         }
         public void StartDisplaying()
         {
-            
+
             //newWindow.
 
             displayNextQuestion();
@@ -94,7 +97,7 @@ namespace SurveyTool
             {
                 x = imageSetList[currImageSet].GetNextQuestion();
             }
-                           
+
             //enable/disable previous and next buttons, depending on our position:
             currQuestion++;
             //NextButton.IsEnabled = currQuestion < TotalNumQuestions - 1;
@@ -149,9 +152,9 @@ namespace SurveyTool
             int height = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
 
             this.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
-            this.Left = width/2 - this.Width / 2;
+            this.Left = width / 2 - this.Width / 2;
             this.Top = (height - 200);
-            
+
             //TODO: load in question instead of this
             //OneToNQuestion x = new OneToNQuestion(5, 4);
             //x.Display(QuestionGrid);
@@ -160,7 +163,7 @@ namespace SurveyTool
             int currRow = 0;
             int currCol = 0;
 
-            
+
             for (int i = 0; i < currNumImages; i++)
             {
                 imView[i] = new ImageViewer();
@@ -218,9 +221,9 @@ namespace SurveyTool
                 foreach (ImageSet imSet in imageSetList)
                 {
                     currUnansweredList = imSet.UnansweredQuestionsList;
-                    for (int i=0; i<currUnansweredList.Count; i++)//j in currUnansweredList)
+                    for (int i = 0; i < currUnansweredList.Count; i++)//j in currUnansweredList)
                     {
-                        currUnansweredList[i]+=currListFirstQuestionNumber; //translate from relative question number (for that set) to overall number
+                        currUnansweredList[i] += currListFirstQuestionNumber; //translate from relative question number (for that set) to overall number
                     }
                     unansweredList.AddRange(currUnansweredList);
                     currListFirstQuestionNumber += imSet.NumQuestions;
@@ -237,7 +240,7 @@ namespace SurveyTool
                         unansweredMessageList[i] += ", "; //in a list of 2+, add commas after all but the last one
                     }
                     //check if we have >1 item in our list, and tack the appropriate plural form of question(s) to the front of the first string:
-                    unansweredMessageList[0] = (unansweredMessageList.Count >1)? "questions " + unansweredMessageList[0] : "question " + unansweredMessageList[0];
+                    unansweredMessageList[0] = (unansweredMessageList.Count > 1) ? "questions " + unansweredMessageList[0] : "question " + unansweredMessageList[0];
 
                     MessageBoxResult savePrompt = MessageBox.Show("You've reached the end of the survey!\nPlease go back and complete " + string.Concat(unansweredMessageList.ToArray()) + " before submitting.  Thanks!", "Unanswered Questions", MessageBoxButton.OKCancel, MessageBoxImage.Question);
                 }
@@ -265,24 +268,63 @@ namespace SurveyTool
 
         private void serializeData()
         {
-            Stream st = new FileStream(@"C:\test.txt", FileMode.Append);//File.OpenWrite(@"C:\test.txt");
-            //.
-           //treamWriter sw = new StreamWriter(@"C:\test.txt");
-            //MemoryStream ms = new MemoryStream();
-            //BinaryFormatter bf = new BinaryFormatter();
+            Stream st = new FileStream(@"C:\test.xml", FileMode.Append);
+
+            /*
             XmlSerializer personalSer = new XmlSerializer(typeof(PersonalInfo));
             XmlSerializer ser = new XmlSerializer(typeof(ImageSet));
             TextWriter writer = new StreamWriter(@"C:\test.xml");
 
-            //XmlSerlializerNamespaces xsn = new XmlSerializerNamespaces();
-
-            personalSer.Serialize(writer, startWindow.Resources["data"]);//.Keys.
+            writer.WriteStartElement("Question");
+            personalSer.Serialize(writer, startWindow.Resources["data"]);
             foreach (ImageSet ims in imageSetList)
             {
                 ser.Serialize(writer, ims);
             }
             st.Close();
-            
+             */
+
+            XmlSerializer ser = new XmlSerializer(typeof(SurveyInfoWrapper));
+            //TextWriter writer = new StreamWriter(@"C:\test.xml");
+
+            SurveyInfoWrapper wrapper = new SurveyInfoWrapper((PersonalInfo)startWindow.Resources["data"], imageSetList);
+            ser.Serialize(st, wrapper); 
+
+            st.Close();
+
+        }
+
+
+    }
+    public class SurveyInfoWrapper:IXmlSerializable
+    {
+        private PersonalInfo person;
+        private List<ImageSet> imageSets;
+
+        public SurveyInfoWrapper()
+        {
+        }
+
+        public SurveyInfoWrapper(PersonalInfo personInfo, List<ImageSet> imageSetList)
+        {
+            person = personInfo;
+            imageSets = imageSetList;
+        }
+        public void WriteXml(XmlWriter writer)
+        {
+            person.WriteXml(writer);
+            foreach (ImageSet ims in imageSets)
+            {
+                ims.WriteXml(writer);
+            }
+        }
+        public void ReadXml(XmlReader reader)
+        {
+            //personName = reader.ReadString();
+        }
+        public XmlSchema GetSchema()
+        {
+            return (null);
         }
     }
-}
+ }

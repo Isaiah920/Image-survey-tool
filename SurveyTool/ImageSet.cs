@@ -68,11 +68,11 @@ namespace SurveyTool
 
             public void WriteXml(XmlWriter writer)
             {
-                writer.WriteStartElement("ImageSet");
-                for (int i = 0; i < NumImages; i++)
+                //writer.WriteStartElement("ImageSet");
+                /*for (int i = 0; i < NumImages; i++)
                 {
                     writer.WriteAttributeString("Image", imagePath[i]);       
-                }
+                }*/
                 for (int i = 0; i < NumQuestions; i++)
                 {
                     writer.WriteStartElement("Question");
@@ -80,7 +80,7 @@ namespace SurveyTool
                     writer.WriteEndElement();
                     //info.AddValue("Question"+i, questionList[i]);
                 }
-                writer.WriteEndElement();
+                //writer.WriteEndElement();
             }
 
             public void ReadXml(XmlReader reader)

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Controls;
-using System.Windows;
 
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -12,17 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Schema;
-using System.Xml.Serialization;
+using System.Xml.Linq;
+
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters;
+using System.IO;
 
 namespace SurveyTool
 {
     [Serializable]
-    class ShortAnswerQuestion:IQuestions, IXmlSerializable
+    public class ShortAnswerQuestion:IQuestions, IXmlSerializable
     {
         private int numImages;
         private TextBox imageTextbox;
@@ -111,7 +115,32 @@ namespace SurveyTool
 
         public void ReadXml(XmlReader reader)
         {
-            //personName = reader.ReadString();
+            reader.MoveToContent();
+            numImages = int.Parse(reader.GetAttribute("NumImages")); //TODO: error checking!
+            questionString = reader.GetAttribute("QuestionString");
+
+            if (imageTextbox == null)
+            {
+                //since we're probably reading into a brand new question, this is almost certainly true:
+                imageTextbox = new TextBox();
+            }
+
+            XmlReader inner = reader.ReadSubtree();
+            inner.MoveToContent();
+
+            while (inner.Read())
+            {
+                if (inner.NodeType == XmlNodeType.Element && inner.Name == "Answer")
+                {
+                    XElement el = XNode.ReadFrom(inner) as XElement;
+                    if (el != null)
+                    {
+                        imageTextbox.Text = el.Value.ToString();
+                        break;
+                    }
+                }
+            }
+            inner.Close();
         }
 
         public XmlSchema GetSchema()

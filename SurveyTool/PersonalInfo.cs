@@ -6,6 +6,10 @@ using System.ComponentModel;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 
+using System.Xml;
+using System.Xml.Serialization;
+using System.Xml.Schema;
+
 namespace SurveyTool
 {
     public enum GenderEnum
@@ -27,7 +31,7 @@ namespace SurveyTool
     }
 
     [Serializable]
-    public class PersonalInfo : IDataErrorInfo, ISerializable
+    public class PersonalInfo : IDataErrorInfo, IXmlSerializable
     {
 
         #region Fields
@@ -97,18 +101,27 @@ namespace SurveyTool
                     hasProblems += checkNumbers[i]; //each field starts off empty, so all invalid.
                 }
             }
-            
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        public void WriteXml(XmlWriter writer)
         {
-            info.AddValue("Name", name);
-            info.AddValue("Dept", dept);
-            info.AddValue("OtherInfo", OtherInfo);
-            info.AddValue("Age", age);
-            info.AddValue("Gender", gender);
-            info.AddValue("VisionProblems", vision);
-            if (vision) info.AddValue("VisionProblemsDescription", VisionProblemsDescription);
+            writer.WriteElementString("Name", name);
+            writer.WriteElementString("Dept", dept);
+            writer.WriteElementString("OtherInfo", OtherInfo);
+            writer.WriteElementString("Age", ""+age);
+            writer.WriteElementString("Gender", ""+gender);
+            writer.WriteElementString("VisionProblems", ""+vision);
+            if (vision) writer.WriteAttributeString("VisionProblemsDescription", VisionProblemsDescription);
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            //personName = reader.ReadString();
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return (null);
         }
 
     #region Validation methods

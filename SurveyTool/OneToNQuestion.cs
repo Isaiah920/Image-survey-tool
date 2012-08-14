@@ -17,6 +17,11 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Schema;
+using System.Xml.Linq;
+
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters;
+using System.IO;
 
 namespace SurveyTool
 {
@@ -236,26 +241,12 @@ namespace SurveyTool
                 numImages = num;
                 return true;
             }
-            
-        /*public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
-            {
-                for (int i = 0; i < numImages; i++)
-                {
-                    for (int j = 0; j < NumChoices; j++)
-                    {
-                        if (radioChoices[i, j].IsChecked == true)
-                        {
-                            info.AddValue("Answer" + i, j);
-                        }
-                    }
-                } 
-            }*/
 
             public void WriteXml(XmlWriter writer)
             {
-                
                 writer.WriteAttributeString("Type", "OneToNQuestion");
-                writer.WriteAttributeString("NumImages", ""+numImages);
+                writer.WriteAttributeString("NumImages", "" + numImages);
+                writer.WriteAttributeString("NumChoices", "" + NumChoices);
                 writer.WriteAttributeString("QuestionString", questionString);
                 for (int i = 0; i < numImages; i++)
                 {
@@ -271,7 +262,44 @@ namespace SurveyTool
 
             public void ReadXml(XmlReader reader)
             {
-                //personName = reader.ReadString();
+                int currChecked;
+
+                reader.MoveToContent();
+		        numImages = int.Parse(reader.GetAttribute("NumImages")); //TODO: error checking!
+                NumChoices = int.Parse(reader.GetAttribute("NumChoices"));
+                questionString = reader.GetAttribute("QuestionString");
+
+                if (radioChoices == null)
+                {
+                    //since we're probably reading into a brand new question, this is almost certainly true:
+                    radioChoices = new RadioButton[numImages, NumChoices];
+                    for (int i=0; i<numImages; i++)
+                    {
+                        for (int j = 0; j < NumChoices; j++)
+                        {
+                            radioChoices[i,j] = new RadioButton();
+                        }
+                    }
+                }
+
+                XmlReader inner = reader.ReadSubtree();
+                inner.MoveToContent();
+
+                int curr = 0;
+                while (inner.Read())
+                {
+                    if (inner.NodeType == XmlNodeType.Element && inner.Name == "Answer" + curr)
+                    {
+                        XElement el = XNode.ReadFrom(inner) as XElement;
+                        if (el != null)
+                        {
+                            currChecked = int.Parse(el.Value.ToString());
+                            radioChoices[curr, currChecked].IsChecked = true;
+                            curr++;
+                        }
+                    }
+                }
+                inner.Close();
             }
 
             public XmlSchema GetSchema()

@@ -17,11 +17,16 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Schema;
+using System.Xml.Linq;
+
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters;
+using System.IO;
 
 namespace SurveyTool
 {
     [Serializable]
-    class MultipleShortAnswerQuestion:IQuestions, IXmlSerializable
+    public class MultipleShortAnswerQuestion:IQuestions, IXmlSerializable
     {
         private string questionString;
         private int numImages;
@@ -159,7 +164,37 @@ namespace SurveyTool
 
         public void ReadXml(XmlReader reader)
         {
-            //personName = reader.ReadString();
+            reader.MoveToContent();
+            numImages = int.Parse(reader.GetAttribute("NumImages")); //TODO: error checking!
+            questionString = reader.GetAttribute("QuestionString");
+
+            if (imageTextbox == null)
+            {
+                //since we're probably reading into a brand new question, this is almost certainly true:
+                imageTextbox = new TextBox[numImages];
+                for (int i = 0; i < numImages; i++)
+                {
+                     imageTextbox[i] = new TextBox();
+                }
+            }
+
+            XmlReader inner = reader.ReadSubtree();
+            inner.MoveToContent();
+
+            int curr = 0;
+            while (inner.Read())
+            {
+                if (inner.NodeType == XmlNodeType.Element && inner.Name == "Answer" + curr)
+                {
+                    XElement el = XNode.ReadFrom(inner) as XElement;
+                    if (el != null)
+                    {
+                        imageTextbox[curr].Text = el.Value.ToString();
+                        curr++;
+                    }
+                }
+            }
+            inner.Close();
         }
 
         public XmlSchema GetSchema()
