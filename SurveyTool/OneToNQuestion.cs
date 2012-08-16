@@ -353,7 +353,6 @@ namespace SurveyTool
                 //table[0, 0] = "" + questionNumber;
                 table[0, 1] = questions[0].questionString; //they all have the same questionString, just pick one
 
-                int currRow = 1;
                 int[] totalChoices;
                 string[] ChoiceLabels = new string[numChoices]; //TODO: read these in from somewhere!
 

@@ -24,9 +24,9 @@ namespace SurveyTool
 
         bool IsAnswered();
 
-        void WriteXml(XmlWriter writer);
-        void ReadXml(XmlReader reader);
-        XmlSchema GetSchema();
+        //void WriteXml(XmlWriter writer);
+        //void ReadXml(XmlReader reader);
+        //XmlSchema GetSchema();
 
         bool CondenseResultsToTable(IEnumerable<IQuestions> questions, int questionNumber, out string[,] table);
     }
