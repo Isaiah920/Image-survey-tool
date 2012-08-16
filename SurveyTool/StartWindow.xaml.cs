@@ -103,7 +103,8 @@ namespace SurveyTool
                         {
                             //get each photo -- there will be between 1 and 4, in excel columns C-F.  An empty string means there are no more
                             //photos in this set
-                            currPhoto = photoWorksheet.get_Range(((char)(currCol + j)) + "" + (4 + i), ((char)(currCol + j)) + "" + (4 + i)).Value.ToString();
+                            Range curr = photoWorksheet.get_Range(((char)(currCol + j)) + "" + (4 + i), ((char)(currCol + j)) + "" + (4 + i));
+                            currPhoto = (curr.Value == null)? "":curr.Value.ToString();
                             if (currPhoto != "")
                             {
                                 imageSets[i].AddPicture(rootPath + currPhoto);

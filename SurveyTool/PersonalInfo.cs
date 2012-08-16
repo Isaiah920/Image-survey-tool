@@ -110,8 +110,9 @@ namespace SurveyTool
             writer.WriteElementString("OtherInfo", OtherInfo);
             writer.WriteElementString("Age", ""+age);
             writer.WriteElementString("Gender", ""+gender);
-            writer.WriteElementString("VisionProblems", ""+vision);
-            if (vision) writer.WriteAttributeString("VisionProblemsDescription", VisionProblemsDescription);
+            writer.WriteElementString("Experience", "" + experience);
+            writer.WriteElementString("VisionProblems", ""+(vision?1:0));
+            if (vision) writer.WriteAttributeString("VisionProblemsDescription", VisionProblemsDescription); //TODO: FIX!!!!!!!!!
         }
 
         public void ReadXml(XmlReader reader)

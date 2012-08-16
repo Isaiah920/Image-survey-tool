@@ -153,5 +153,42 @@ namespace SurveyTool
             if (imageTextbox.Text == "") return false; //empty textbox, so unanswered
             return true; //filled in
         }
+
+        public bool CondenseResultsToTable(IEnumerable<IQuestions> questionsList, int questionNumber, out string[,] table)
+        {
+            //the table will look like this:
+            // QuestionNum  QuestionString
+            //   (empty)    answerforfirstqn
+            //   (empty)    answerfor2ndqn
+            //   (empty)    ...
+
+            //the table will look like this:
+            // QuestionNum  QuestionString
+            //   (empty)    option1         totalforoption1
+            //   (empty)    option2         totalforoption2
+            //   (empty)    ...
+
+             //make sure these are all the right type, to avoid unexpected behaviour
+            ShortAnswerQuestion[] questions = new ShortAnswerQuestion[questionsList.Count()];
+            for (int i = 0; i < questions.Length; i++)
+            {
+                questions[i] = questionsList.ElementAt(i) as ShortAnswerQuestion;
+            }
+            //ShortAnswerQuestion[] questions = (ShortAnswerQuestion[])questionsList.Where(x => x is ShortAnswerQuestion);
+
+            int numQuestions = questions.Count();
+
+            table = new string[numQuestions + 1, 2]; //extra row for heading
+            //table[0, 0] = "" + (questionNumber + 1);
+            table[0, 1] = questions[0].questionString; //they all have the same questionString, just pick one
+
+            int currRow = 1;
+            foreach (ShortAnswerQuestion question in questions)
+            {
+                table[currRow++, 1] = question.answer;
+            }
+
+            return true;
+        }
     }
 }

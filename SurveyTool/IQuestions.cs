@@ -27,5 +27,7 @@ namespace SurveyTool
         void WriteXml(XmlWriter writer);
         void ReadXml(XmlReader reader);
         XmlSchema GetSchema();
+
+        bool CondenseResultsToTable(IEnumerable<IQuestions> questions, int questionNumber, out string[,] table);
     }
 }

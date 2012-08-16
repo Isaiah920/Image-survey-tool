@@ -210,5 +210,46 @@ namespace SurveyTool
             }
             return true; //everything's filled in
         }
+
+        public bool CondenseResultsToTable(IEnumerable<IQuestions> questionsList, int questionNumber, out string[,] table)
+        {
+            //the table will look like this:
+            // QuestionNum  QuestionString
+            //   (empty)    A                       B           ...
+            //   (empty)    answerforfirstperson    anotherans
+            //   (empty)    answerfor2ndperson      yetanotherans
+            //   (empty)    ...
+
+            //make sure these are all the right type, to avoid unexpected behaviour
+            MultipleShortAnswerQuestion[] questions = new MultipleShortAnswerQuestion[questionsList.Count()];
+            for (int i = 0; i < questions.Length; i++)
+            {
+                questions[i] = questionsList.ElementAt(i) as MultipleShortAnswerQuestion;
+            }
+            //MultipleShortAnswerQuestion[] questions = (MultipleShortAnswerQuestion[])questionsList.Where(x => x is MultipleShortAnswerQuestion);
+
+            int numQuestions = questions.Count();
+
+            table = new string[numQuestions + 2, 2*questions[0].numImages]; //extra row for heading, 
+            //table[0, 0] = "" + questionNumber;
+            table[0, 1] = questions[0].questionString; //they all have the same questionString, just pick one
+
+            for (int i = 0; i < numImages; i++)
+            {
+                table[1, 2 * i+1] = "" + (char)('A' + i);
+            }
+
+            int currRow = 2;
+            foreach (MultipleShortAnswerQuestion question in questions)
+            {
+                for (int i = 0; i < numImages; i++)
+                {
+                    table[currRow, 2*i+1] = question.imageTextbox[i].Text; //skip a column after each
+                }
+                currRow++;
+            }
+
+            return true;
+        }
     }
 }

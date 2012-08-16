@@ -328,6 +328,54 @@ namespace SurveyTool
                 return null; //couldn't find anything checked, so it hasn't been answered
             }
 
+            public bool CondenseResultsToTable(IEnumerable<IQuestions> questionsList, int questionNumber, out string[,] table)
+            {
+                //the table will look like this:
+                // QuestionNum  QuestionString
+                //   (empty)        (empty)       A                   B                 ...
+                //                  option1       totalforoption1     totalforoption2
+                //                  option2       totalforoption1     totalforoption2
+                //      ...
+
+                //make sure these are all the right type, to avoid unexpected behaviour
+                OneToNQuestion[] questions = new OneToNQuestion[questionsList.Count()];
+                for (int i=0; i<questions.Length; i++)
+                {
+                    questions[i] = questionsList.ElementAt(i) as OneToNQuestion;
+                }
+                //(OneToNQuestion[])questionsList.ToArray<IQuestions>();//.Where(x => x is OneToNQuestion);
+
+                int numQuestions = questions.Count();
+                int numChoices = questions[0].NumChoices;
+                int numImages = questions[0].numImages;
+
+                table = new string[numChoices + 2, numImages + 2]; //extra row for heading
+                //table[0, 0] = "" + questionNumber;
+                table[0, 1] = questions[0].questionString; //they all have the same questionString, just pick one
+
+                int currRow = 1;
+                int[] totalChoices;
+                string[] ChoiceLabels = new string[numChoices]; //TODO: read these in from somewhere!
+
+                for (int i = 0; i < numImages; i++)
+                {
+                    table[1, i+2] = "" + (char)('A' + i);
+                    totalChoices = new int[numChoices];
+                    foreach (OneToNQuestion question in questions)
+                    {
+                        totalChoices[question.getAnswer(i) ?? 0]++; //TODO: not really a good thing, but everything *should* be answered anyway...
+                    }
+                    
+                    for (int j = 0; j < numChoices; j++)
+                    {
+                        table[j+2,1] = ChoiceLabels[j] ?? "Choice" + (j + 1); //TODO: read these in from somewhere! (results, or orig. survey)
+                        table[j+2,i+2] = "" + totalChoices[j];
+                    }
+                }
+
+                return true;
+            }
+
         #endregion
 
     }
