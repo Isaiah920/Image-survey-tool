@@ -268,7 +268,7 @@ namespace SurveyTool
 
         private void serializeData()
         {
-            Stream st = new FileStream(@"C:\test.xml", FileMode.Append);
+            Stream st = new FileStream(@"C:\Survey_" + System.IO.Path.GetRandomFileName()+ ".xml", FileMode.Append);
 
             /*
             XmlSerializer personalSer = new XmlSerializer(typeof(PersonalInfo));
