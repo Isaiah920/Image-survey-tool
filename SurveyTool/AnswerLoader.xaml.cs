@@ -5,6 +5,10 @@ using System.Windows.Documents;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Microsoft.Win32;
+using System.Windows.Forms;
+using System.IO;
+using System.Drawing;
 
 namespace SurveyTool
 {
@@ -18,7 +22,11 @@ namespace SurveyTool
 
         public AnswerLoader()
         {
-            InitializeComponent(); 
+            InitializeComponent();
+            foreach (UIElement ele in StepsGrid.Children)
+            {
+                ele.IsEnabled = false;
+            } 
         }
 
         public void loadQuestions(string file)
@@ -136,6 +144,92 @@ namespace SurveyTool
                     worksheet.Cells[currRow + i,j] = currTable[i-1,j-1];
                 }
             }
+        }
+
+        private void FileBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog(); //long name since conflict
+            dialog.DefaultExt = ".xls";
+            dialog.Filter = "Excel files (.xls)|*.xls"; //TODO: xlsx?!
+
+            string file = "";
+            if (dialog.ShowDialog() == true) //this is a nullable bool, hence the ==
+            {
+                file = dialog.FileName;
+            }
+
+            SurveyTextBox.Text = file;
+            SurveySelectTextBlock.Text = "The survey has been loaded successfully.";
+            //validSurveyLoaded = true; //now we can click the Start Survey button
+
+            foreach (UIElement ele in StepsGrid.Children)
+            {
+                ele.IsEnabled = true;
+            }
+            fullFileName = file;
+            updateFileName();
+        }
+
+        string folderName;
+        string fullFolderName;
+        Uri programUri = new Uri(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath));
+
+        void updateFolderName()
+        {
+            if (SurveyResultPathAbsoluteRadioButton.IsChecked == true)
+            {
+                folderName = fullFolderName;
+            }
+            else
+            {
+                Uri full = new Uri(fullFolderName);
+                folderName = programUri.MakeRelativeUri(full).ToString();
+            }
+            SavePathTextbox.Text = folderName;
+        }
+
+        string fileName;
+        string fullFileName;
+
+        void updateFileName()
+        {
+            if (SurveyPathAbsoluteRadioButton.IsChecked == true)
+            {
+                fileName = fullFileName;
+            }
+            else
+            {
+                Uri full = new Uri(fullFileName);
+                fileName = programUri.MakeRelativeUri(full).ToString();
+            }
+            SurveyPathTextbox.Text = fileName;
+        }
+
+        private void BrowseResultsPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog browse = new FolderBrowserDialog();
+            browse.ShowNewFolderButton = true;
+
+
+             DialogResult result2 = browse.ShowDialog();
+            if( result2 == System.Windows.Forms.DialogResult.OK )
+            {
+                fullFolderName = browse.SelectedPath;
+                updateFolderName();
+            }
+            //browse.
+            //browse.ShowDialog();
+            //if (browse.SelectedPath
+        }
+
+        private void SurveyResultPathRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            updateFolderName();
+        }
+
+        private void SurveyPathRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            updateFileName();
         }
     }
 }
