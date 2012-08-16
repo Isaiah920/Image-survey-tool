@@ -1,37 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization.Formatters;
-using System.IO;
-using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Linq;
-
-using Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Interop;
-
-//using System;
-//using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-//using System.Linq;
-//using System.Text;
-using System.Windows.Forms;
-using System.Reflection;
-//using Microsoft.Office.Interop.Excel;
+using System.Xml.Serialization;
 
 namespace SurveyTool
 {
@@ -124,13 +97,12 @@ namespace SurveyTool
                 Microsoft.Office.Interop.Excel.Workbook workbook = app.Workbooks.Add(Type.Missing);
                 Microsoft.Office.Interop.Excel.Worksheet worksheet = null;
             
-            worksheet = (Microsoft.Office.Interop.Excel.Worksheet) workbook.Sheets[1];
-                //worksheet.Name = "Results";
+                worksheet = (Microsoft.Office.Interop.Excel.Worksheet) workbook.Sheets[1];
                 worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.ActiveSheet;
                 app.Visible = true;
 
                 string[,] currTable;
-            int currRow = 0;
+                int currRow = 0;
 
                 for (int i = 0; i < questions[0].Count; i++)
                 {
@@ -157,8 +129,6 @@ namespace SurveyTool
 
         private void writeToExcel(string[,] currTable, int currRow, Microsoft.Office.Interop.Excel.Worksheet worksheet)
         {
-            
-            //source2.RaiseListChangedEvents = true;
             for (int i = 1; i < currTable.GetLength(0)+1; i++)
             {
                 for (int j = 1; j < currTable.GetLength(1)+1; j++) 
@@ -166,25 +136,6 @@ namespace SurveyTool
                     worksheet.Cells[currRow + i,j] = currTable[i-1,j-1];
                 }
             }
-            /*
-            worksheet.Cells[1, 1] = ResultsSelectCheckedListBox.Items[currTestResults].ToString();
-            for (int i = 1; i < AutoTestDataGridView.Columns.Count + 1; i++)
-            {
-                worksheet.Cells[2, i] = AutoTestDataGridView.Columns[i - 1].HeaderText;
-                ((Range)worksheet.Cells[2, i]).EntireColumn.AutoFit();
-            }
-
-            int k = 1, l = 3;
-            foreach (TestItem item in TestInfo.TestList[currTestResults])
-            {
-                k = 1;
-                foreach (DataGridViewColumn col in AutoTestDataGridView.Columns)
-                {
-                    worksheet.Cells[l, k++] = (item.GetType().GetProperty(col.DataPropertyName).GetValue(item, null) ?? "").ToString();
-                }
-                l++;
-            }
-                */
         }
     }
 }

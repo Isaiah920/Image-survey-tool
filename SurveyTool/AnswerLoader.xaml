@@ -1,21 +1,31 @@
 ﻿<Window x:Class="SurveyTool.AnswerLoader"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="RIM Image Survey Tool" Loaded="Window_Loaded" Height="460" Width="650" Icon="/SurveyTool;component/Images/comment_add_48.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Title="RIM Image Survey Tool" Loaded="Window_Loaded" Height="581" Width="650" Icon="/SurveyTool;component/Images/comment_add_48.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         xmlns:src="clr-namespace:SurveyTool" >
-    <Grid Height="417">
-        <Label Content="Select Survey" Height="43" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Top" Width="214" FontSize="16" VerticalContentAlignment="Center" FontWeight="Bold" Margin="10,8,404,0" />
-            <TextBox Height="23" HorizontalAlignment="Left" Margin="100,56,0,0" Name="SurveyTextBox" VerticalAlignment="Top" Width="403" IsEnabled="False" />
-            <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="509,55,0,0" Name="FileBrowseButton" VerticalAlignment="Top" Width="99" />
-        <Label Content="Load Responses (*.xml)" FontSize="16" Height="43" HorizontalAlignment="Center" Margin="11,122,369,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="249" FontWeight="Bold" />
-        <Image Height="70" HorizontalAlignment="Left" Margin="21,45,0,0" Name="image1" Stretch="None" VerticalAlignment="Top" Width="70" Source="/SurveyTool;component/Images/comment_add_48.png" />
-        <Image Height="70" HorizontalAlignment="Left" Margin="21,156,0,0" Name="image3" Source="/SurveyTool;component/Images/folder_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
-        <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="100,171,0,0" Name="textBox1" VerticalAlignment="Top" Width="403" />
-        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="509,170,0,0" Name="button1" VerticalAlignment="Top" Width="99" />
-        <Label Content="Choose Result Export Path (*.xls)" FontSize="16" FontWeight="Bold" Height="43" HorizontalAlignment="Center" Margin="11,237,349,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="268" />
-        <Image Height="70" HorizontalAlignment="Left" Margin="22,278,0,0" Name="image2" Source="/SurveyTool;component/Images/floppy_disk_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
-        <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="100,286,0,0" Name="textBox2" VerticalAlignment="Top" Width="403" />
-        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="508,285,0,0" Name="button2" VerticalAlignment="Top" Width="99" />
-        <Button Command="ApplicationCommands.Save" Content="Save Results to Excel" Height="23" HorizontalAlignment="Left" Margin="479,383,0,0" Name="StartSurveyButton" VerticalAlignment="Top" Width="129" />
+    <Grid Height="542">
+        <Label Content="Select Survey" Height="43" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Top" Width="214" FontSize="16" VerticalContentAlignment="Center" FontWeight="Bold" Margin="10,39,404,0" />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="100,87,0,0" Name="SurveyTextBox" VerticalAlignment="Top" Width="429" IsEnabled="False" />
+            <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="535,86,0,0" Name="FileBrowseButton" VerticalAlignment="Top" Width="73" />
+        <Image Height="70" HorizontalAlignment="Left" Margin="21,76,0,0" Name="image1" Stretch="None" VerticalAlignment="Top" Width="70" Source="/SurveyTool;component/Images/comment_add_48.png" />
+        <Image Height="70" HorizontalAlignment="Left" Margin="87,420,0,0" Name="image3" Source="/SurveyTool;component/Images/folder_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
+        <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="163,216,0,0" Name="textBox1" VerticalAlignment="Top" Width="366" />
+        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="535,216,0,0" Name="button1" VerticalAlignment="Top" Width="73" />
+        <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="163,450,0,0" Name="textBox2" VerticalAlignment="Top" Width="366" />
+        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="535,449,0,0" Name="button2" VerticalAlignment="Top" Width="73" />
+        <Button Command="ApplicationCommands.Save" Content="Save Results to Excel" Height="44" HorizontalAlignment="Left" Margin="470,483,0,0" Name="StartSurveyButton" VerticalAlignment="Top" Width="138" />
+        <Label Content="Path to Save Survey Results:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="158,189,0,0" VerticalAlignment="Top" />
+        <Label Content="Set Up Survey" FontSize="16" FontWeight="Bold" Height="43" HorizontalAlignment="Center" Margin="79,152,335,0" Name="label2" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="214" />
+        <Label Content="Export Survey Results to Excel" FontSize="16" FontWeight="Bold" Height="43" HorizontalAlignment="Center" Margin="79,387,300,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="249" />
+        <Image Height="70" HorizontalAlignment="Left" Margin="87,311,0,0" Name="image4" Source="/SurveyTool;component/Images/users_two_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
+        <Label Content="Load User Responses (*.xml)" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="158,422,0,0" VerticalAlignment="Top" />
+        <Button Command="ApplicationCommands.Save" Content="Save Configuration" Height="44" HorizontalAlignment="Left" Margin="470,250,0,0" Name="button3" VerticalAlignment="Top" Width="138" />
+        <Image Height="70" HorizontalAlignment="Left" Margin="87,192,0,0" Name="image2" Source="/SurveyTool;component/Images/table_green_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
+        <Label Content="Gather User Results" FontSize="16" FontWeight="Bold" Height="43" HorizontalAlignment="Center" Margin="79,277,335,0" Name="label3" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="214" />
+        <TextBlock Height="61" HorizontalAlignment="Left" Margin="163,318,0,0" Name="textBlock1" Text="Have users run SurveyTool.exe, which will start the current survey.  Each user's results will be saved as a uniquely named .xml file to the path specified above." VerticalAlignment="Top" FontStyle="Normal" FontWeight="Bold" TextWrapping="Wrap" Width="445" />
+        <Label Content="1" Height="94" HorizontalAlignment="Left" Margin="30,136,0,0" Name="label4" VerticalAlignment="Top" Foreground="#B1000000" FontSize="64" Width="51" />
+        <Label Content="2" FontSize="64" Foreground="#B1000000" Height="94" HorizontalAlignment="Left" Margin="30,265,0,0" Name="label5" VerticalAlignment="Top" Width="51" />
+        <Label Content="3" FontSize="64" Foreground="#B1000000" Height="94" HorizontalAlignment="Left" Margin="30,377,0,0" Name="label6" VerticalAlignment="Top" Width="51" />
+        <Label Content="Survey Administration" FontSize="36" Foreground="#B1000000" Height="61" HorizontalAlignment="Left" Margin="230,5,0,0" Name="label7" VerticalAlignment="Top" Width="378" HorizontalContentAlignment="Right" Padding="0" />
     </Grid>
 </Window>
