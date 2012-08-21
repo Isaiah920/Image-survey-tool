@@ -71,6 +71,7 @@
     <Compile Include="SurveyMaker.xaml.cs">
       <DependentUpon>SurveyMaker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SurveySettings.cs" />
     <Page Include="AnswerLoader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

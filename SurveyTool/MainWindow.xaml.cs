@@ -28,13 +28,15 @@ namespace SurveyTool
     public partial class MainWindow : Window
     {
         StartWindow startWindow;
+        SurveySettings settings;
 
-        public MainWindow(StartWindow parent)
+        public MainWindow(StartWindow parent, SurveySettings parentSettings)
         {
             InitializeComponent();
             //Grid x;
             //x.Children.Add(
             startWindow = parent;
+            settings = parentSettings;
 
         }
         int currNumImages = 4;
@@ -268,7 +270,7 @@ namespace SurveyTool
 
         private void serializeData()
         {
-            Stream st = new FileStream(@"C:\Survey_" + System.IO.Path.GetRandomFileName()+ ".xml", FileMode.Append);
+            Stream st = new FileStream(settings.fullFolderName + "/Survey_" + System.IO.Path.GetRandomFileName()+ ".xml", FileMode.Append);
 
             /*
             XmlSerializer personalSer = new XmlSerializer(typeof(PersonalInfo));

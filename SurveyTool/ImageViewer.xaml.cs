@@ -61,7 +61,7 @@ namespace SurveyTool
 
             BitmapImage src = new BitmapImage();
             src.BeginInit();
-            src.UriSource = new Uri(path, UriKind.Relative);//"Sunset.jpg", UriKind.Relative);
+            src.UriSource = new Uri(path, UriKind.Absolute);//"Sunset.jpg", UriKind.Relative);
             src.CacheOption = BitmapCacheOption.OnLoad;
             try
             {

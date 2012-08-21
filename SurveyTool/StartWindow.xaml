@@ -26,9 +26,7 @@
     </Window.CommandBindings>
     
     <Grid Height="491">
-        <Label Content="Select Survey" Height="43" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Top" Width="214" FontSize="16" VerticalContentAlignment="Center" FontWeight="Bold" Margin="10,8,404,0" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="100,56,0,0" Name="SurveyTextBox" VerticalAlignment="Top" Width="403" IsEnabled="False" />
-        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="509,55,0,0" Name="FileBrowseButton" VerticalAlignment="Top" Width="99" Click="FileBrowseButton_Click" />
+        <Label Content="About This Survey" Height="43" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Top" Width="214" FontSize="16" VerticalContentAlignment="Center" FontWeight="Bold" Margin="10,8,404,0" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="266,164,0,0" Name="NameTextBox" VerticalAlignment="Top" Width="342" Style="{StaticResource textBoxInError}">
             <TextBox.Text>
                 <!-- Setting the ValidatesOnDataErrors to true enables to the Binding to check for
@@ -71,7 +69,6 @@
         <TextBox Height="26" HorizontalAlignment="Left" Margin="266,232,0,0" Name="OtherInfoTextBox" VerticalAlignment="Top" Width="342" >
             <Binding Path="OtherInfo" Source="{StaticResource data}"/>
         </TextBox>
-        <TextBlock Height="49" HorizontalAlignment="Left" Margin="100,84,0,0" Name="SurveySelectTextBlock" Text="Please select a valid survey file (*.xls)." VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Width="508" />
         <Label Content="Age" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,264,0,0" Name="label3" VerticalAlignment="Top" />
         <Label Content="Vision Problems?" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="95,364,0,0" Name="label8" VerticalAlignment="Top" />
         <TextBox Height="26" HorizontalAlignment="Left" Margin="266,266,0,0" Name="AgeTextBox" VerticalAlignment="Top" Width="90" MaxLength="3" Style="{StaticResource textBoxInError}">
@@ -105,6 +102,10 @@
         <StackPanel Height="21" HorizontalAlignment="Left" Margin="266,366,0,0" Name="stackPanel3" VerticalAlignment="Top" Width="342" Orientation="Horizontal">
             <RadioButton Content="No" IsChecked="{Binding Source={StaticResource data}, Path=VisionProblems, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:VisionProblemsEnum.No}}" Height="16" Padding="4,0,25,0" Checked="VisionProblemsNoRadioButton_Checked"/>
             <RadioButton Content="Yes, as described:" IsChecked="{Binding Source={StaticResource data}, Path=VisionProblems, Converter={StaticResource RadioButtonEnumConverter}, ConverterParameter={x:Static src:VisionProblemsEnum.Yes}}" Height="16" Padding="4,0,25,0" Checked="VisionProblemsYesRadioButton_Checked"/>
+        </StackPanel>
+        <StackPanel Height="70" HorizontalAlignment="Left" Margin="95,45,0,0" Name="stackPanel4" VerticalAlignment="Top" Width="521">
+            <TextBlock Name="SurveySelectTextBlock" Text="Please select a valid survey file (*.xls)." TextWrapping="WrapWithOverflow" Width="508" VerticalAlignment="Center" />
+            <TextBlock Name="SavedToBlock" Text="Your completed survey will be saved to" TextWrapping="WrapWithOverflow" Width="508" VerticalAlignment="Center" />
         </StackPanel>
     </Grid>
 </Window>

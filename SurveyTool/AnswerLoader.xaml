@@ -27,15 +27,15 @@
         <Image Height="70" HorizontalAlignment="Left" Margin="87,504,0,0" Name="image3" Source="/SurveyTool;component/Images/folder_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
         <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="164,297,0,0" Name="SavePathTextbox" VerticalAlignment="Top" Width="366" IsReadOnly="True" />
         <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="536,297,0,0" Name="BrowseResultsPathButton" VerticalAlignment="Top" Width="73" IsEnabled="False" Click="BrowseResultsPathButton_Click" />
-        <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="163,534,0,0" Name="textBox2" VerticalAlignment="Top" Width="366" />
-        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="535,533,0,0" Name="button2" VerticalAlignment="Top" Width="73" IsEnabled="False" />
-        <Button Command="ApplicationCommands.Save" Content="Save Results to Excel" Height="44" HorizontalAlignment="Left" Margin="470,567,0,0" Name="StartSurveyButton" VerticalAlignment="Top" Width="138" />
+        <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="163,534,0,0" Name="ResponsesTextBox" VerticalAlignment="Top" Width="366" />
+        <Button Content="Browse..." Height="23" HorizontalAlignment="Left" Margin="535,533,0,0" Name="ResultsBrowseButton" VerticalAlignment="Top" Width="73" IsEnabled="False" Click="ResultsBrowseButton_Click" />
+        <Button Content="Export Results to Excel" Height="40" HorizontalAlignment="Left" Margin="471,569,0,0" Name="SaveToExcelButton" VerticalAlignment="Top" Width="138" Click="SaveToExcelButton_Click" IsEnabled="True" />
         <Label Content="Path to Save Survey Results:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="159,270,0,0" VerticalAlignment="Top" />
         <Label Content="Set Up Survey" FontSize="16" FontWeight="Bold" Height="43" HorizontalAlignment="Center" Margin="79,152,335,0" Name="label2" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="214" />
         <Label Content="Export Survey Results to Excel" FontSize="16" FontWeight="Bold" Height="43" HorizontalAlignment="Center" Margin="79,471,300,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="249" />
         <Image Height="70" HorizontalAlignment="Left" Margin="87,395,0,0" Name="image4" Source="/SurveyTool;component/Images/users_two_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
         <Label Content="Load User Responses (*.xml)" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="158,506,0,0" VerticalAlignment="Top" />
-        <Button Command="ApplicationCommands.Save" Content="Save Configuration" Height="44" HorizontalAlignment="Left" Margin="471,333,0,0" Name="button3" VerticalAlignment="Top" Width="138" />
+        <Button Content="Save Configuration" Height="40" HorizontalAlignment="Left" Margin="471,333,0,0" Name="SaveConfigButton" VerticalAlignment="Top" Width="138" Click="SaveConfigButton_Click" IsEnabled="True" />
         <Image Height="70" HorizontalAlignment="Left" Margin="87,192,0,0" Name="image2" Source="/SurveyTool;component/Images/table_green_48.png" Stretch="None" VerticalAlignment="Top" Width="70" />
         <Label Content="Gather User Results" FontSize="16" FontWeight="Bold" Height="43" HorizontalAlignment="Center" Margin="79,361,335,0" Name="label3" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="214" />
             <TextBlock Height="61" HorizontalAlignment="Left" Margin="163,402,0,0" Name="textBlock1" Text="Have users run SurveyTool.exe, which will start the current survey.  Each user's results will be saved as a uniquely named .xml file to the path specified above." VerticalAlignment="Top" FontWeight="Bold" TextWrapping="Wrap" Width="445" Style="{DynamicResource TextBlockStyle}"/>
@@ -46,14 +46,14 @@
             <StackPanel FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left" Margin="160,319,0,0" Name="stackPanel2" Orientation="Horizontal" VerticalAlignment="Top" Width="198">
                 <Label Content="Path type:" Margin="4" Name="label9" Padding="0" VerticalAlignment="Center" />
                 <RadioButton Content="Absolute" Height="16" IsChecked="True" Name="SurveyResultPathAbsoluteRadioButton" Padding="8,0" Checked="SurveyResultPathRadioButton_Checked" />
-                <RadioButton Content="Relative" Height="16" Name="radioButton4" Checked="SurveyResultPathRadioButton_Checked" />
+                <RadioButton Content="Relative" Height="16" Name="SurveyResultPathRelativeRadioButton" Checked="SurveyResultPathRadioButton_Checked" />
             </StackPanel>
             <Label Content="Path to Survey File:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="158,188,0,0" VerticalAlignment="Top" />
             <TextBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="163,215,0,0" Name="SurveyPathTextbox" VerticalAlignment="Top" Width="445" IsReadOnly="True" />
             <StackPanel FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left" Margin="159,237,0,0" Name="stackPanel3" Orientation="Horizontal" VerticalAlignment="Top" Width="198">
                 <Label Content="Path type:" Margin="4" Name="label10" Padding="0" VerticalAlignment="Center" />
                 <RadioButton Content="Absolute" Height="16" IsChecked="True" Name="SurveyPathAbsoluteRadioButton" Padding="8,0" Checked="SurveyPathRadioButton_Checked" />
-                <RadioButton Content="Relative" Height="16" Name="radioButton6" Checked="SurveyPathRadioButton_Checked" />
+                <RadioButton Content="Relative" Height="16" Name="SurveyPathRelativeRadioButton" Checked="SurveyPathRadioButton_Checked" />
             </StackPanel>
         </Grid>
     </Grid>
