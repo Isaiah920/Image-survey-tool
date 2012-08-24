@@ -1,27 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Linq;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization.Formatters;
-using System.IO;
 
 namespace SurveyTool
 {
@@ -99,12 +85,6 @@ namespace SurveyTool
             return true;
         }
 
-        /*
-        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
-        {
-            info.AddValue("Answer", answer);
-        }
-         */
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("Type", "ShortAnswerQuestion");

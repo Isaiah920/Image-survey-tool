@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyTool", "SurveyTool\SurveyTool.csproj", "{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartSurvey", "StartSurvey\StartSurvey.csproj", "{5CF329C0-9E90-495B-94D9-FC7141362A87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}.Debug|x86.Build.0 = Debug|x86
 		{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}.Release|x86.ActiveCfg = Release|x86
 		{40D00F50-AAC5-4FC3-8747-A9FB654A6B61}.Release|x86.Build.0 = Release|x86
+		{5CF329C0-9E90-495B-94D9-FC7141362A87}.Debug|x86.ActiveCfg = Debug|x86
+		{5CF329C0-9E90-495B-94D9-FC7141362A87}.Debug|x86.Build.0 = Debug|x86
+		{5CF329C0-9E90-495B-94D9-FC7141362A87}.Release|x86.ActiveCfg = Release|x86
+		{5CF329C0-9E90-495B-94D9-FC7141362A87}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Documents;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using Microsoft.Win32;
-using System.Windows.Forms;
-using System.IO;
-using System.Drawing;
+
+using Ookii.Dialogs;
 
 namespace SurveyTool
 {
@@ -140,26 +139,8 @@ namespace SurveyTool
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
-            
-           
-            //}
-          ///  catch (Exception ex)
-          //  {
-           // }
-
-            // Create a new file stream for reading the XML file
-           // FileStream ReadFileStream = new FileStream(@"C:\test.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
-
-            // Load the object saved above by using the Deserialize function
-            //TestClass LoadedObj = (TestClass)SerializerObj.Deserialize(ReadFileStream);
-
-            // Cleanup
-           // ReadFileStream.Close();
-
-
-
         }
+
         private void writeToExcel(string curr, int currRow, Microsoft.Office.Interop.Excel.Worksheet worksheet)
         {
             worksheet.Cells[currRow + 1, 1] = curr;
@@ -238,14 +219,28 @@ namespace SurveyTool
 
         private void BrowseResultsPathButton_Click(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog browse = new FolderBrowserDialog();
-            browse.ShowNewFolderButton = true;
 
 
-             DialogResult result2 = browse.ShowDialog();
-            if( result2 == System.Windows.Forms.DialogResult.OK )
+            VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+            dialog.Description = "Please select a folder.";
+            dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
+            //if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
+             //   MessageBox.Show(this, "Because you are not using Windows Vista or later, the regular folder browser dialog will be used. Please use Windows Vista to see the new dialog.", "Sample folder browser dialog");
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                settings.fullFolderName = browse.SelectedPath;
+             //   MessageBox.Show(this, "The selected folder was: " + dialog.SelectedPath, "Sample folder browser dialog");            
+
+
+            //WPFFolderBrowser.WPFFolderBrowserDialog browse = new WPFFolderBrowser.WPFFolderBrowserDialog();
+
+            //FolderBrowserDialog browse = new FolderBrowserDialog();
+            //browse.ShowNewFolderButton = true;
+
+
+           // bool? result2 = browse.ShowDialog();
+            //if( result2 == true )
+            //{
+                settings.fullFolderName = dialog.SelectedPath;//.FileName;
                 updateFolderName();
             }
             //browse.
@@ -272,8 +267,6 @@ namespace SurveyTool
             dialog.Filter = "SurveyTool Result Files (.xml)|*.xml";
             dialog.Multiselect = true;
 
-            
-
             if (dialog.ShowDialog() == true) //this is a nullable bool, hence the ==
             {
                 files = dialog.FileNames;
@@ -283,7 +276,6 @@ namespace SurveyTool
                 }
                 SaveToExcelButton.IsEnabled = true;
             }
-
 
             //SurveySelectTextBlock.Text = "The survey has been loaded successfully.";
             //validSurveyLoaded = true; //now we can click the Start Survey button
@@ -326,7 +318,6 @@ namespace SurveyTool
             {
                 //couldn't make file...
                 System.Windows.MessageBox.Show("Error opening Excel file: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
         }
 

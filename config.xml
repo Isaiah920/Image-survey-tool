@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SurveySettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <fileNameRelative>true</fileNameRelative>
+  <fileName>../../SampleSurvey.xls</fileName>
+  <fullFileName>C:\Users\lmccrackin\Documents\Visual Studio 2010\Projects\SurveyTool\SampleSurvey.xls</fullFileName>
+  <folderNameRelative>true</folderNameRelative>
+  <folderName>../../../../../../Desktop</folderName>
+  <fullFolderName>C:\Users\lmccrackin\Desktop</fullFolderName>
+</SurveySettings>
