@@ -122,7 +122,16 @@ namespace SurveyTool
             for (int i=0; i<numImageSets; i++)
             {
                 imageSets.Add(new ImageSet());
-                string rootPath = photoWorksheet.get_Range("B" + (4 + i), "B" + (4 + i)).Value.ToString();
+
+                //set up with empty path in case the cell is empty, which would give an error instead of returning a value
+                string rootPath = "";
+                try
+                {
+                    photoWorksheet.get_Range("B" + (4 + i), "B" + (4 + i)).Value.ToString();
+                }
+                catch (NullReferenceException ex)
+                {
+                }
 
                 char currCol = 'C';
                 string currPhoto = "";
@@ -137,7 +146,16 @@ namespace SurveyTool
                         currPhoto = (curr.Value == null)? "":curr.Value.ToString();
                         if (currPhoto != "")
                         {
-                            imageSets[i].AddPicture(System.IO.Path.GetDirectoryName(settings.fullFileName) + "//" + rootPath + currPhoto);//
+                            string picString = System.IO.Path.GetDirectoryName(settings.fullFileName) + "//" + rootPath + currPhoto;
+                            if (File.Exists(picString))
+                            {
+                                imageSets[i].AddPicture(picString);//
+                            }
+                            else
+                            {
+                                MessageBox.Show("Could not load image from " + picString + ". Please make sure the path to the image has been specified correctly in the survey file.", "Error Loading Survey", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                            }
                         }
                         j++;
                     }
@@ -149,7 +167,7 @@ namespace SurveyTool
 
                 }
 
-                string imageName = photoWorksheet.get_Range("B" + (4 + i), "B" + (4 + i)).Value.ToString();
+                //string imageName = photoWorksheet.get_Range("B" + (4 + i), "B" + (4 + i)).Value.ToString();
             }
 
             for (int i = 0; i < numQuestions; i++)

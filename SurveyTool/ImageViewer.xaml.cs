@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace SurveyTool
 {
@@ -67,6 +68,13 @@ namespace SurveyTool
             {
                 src.EndInit();
             }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show("Could not load image from " + path + ". Please make sure the path to the image has been specified correctly.");
+                return;
+            }
+              //  catch (filen
+
             catch (Exception ex) //TODO: for some reason, after excel is loaded, looks in project folder rather than bin/debug... why?
             {
             }
