@@ -75,6 +75,10 @@ namespace SurveyTool
 
         public void loadQuestions(string file)
         {
+            questions = new List<List<IQuestions>>();
+            people = new List<PersonalInfo>();
+            settings = new SurveySettings();
+
             List<IQuestions> tempList = new List<IQuestions>();
             PersonalInfo person = new PersonalInfo();
             try

@@ -234,6 +234,8 @@ namespace SurveyTool
                 writer.WriteAttributeString("NumImages", "" + numImages);
                 writer.WriteAttributeString("NumChoices", "" + NumChoices);
                 writer.WriteAttributeString("QuestionString", questionString);
+                writer.WriteAttributeString("Labels", string.Join(";", choiceLabels.ToArray()));
+
                 for (int i = 0; i < numImages; i++)
                 {
                     for (int j = 0; j < NumChoices; j++)
@@ -254,6 +256,8 @@ namespace SurveyTool
 		        numImages = int.Parse(reader.GetAttribute("NumImages")); //TODO: error checking!
                 NumChoices = int.Parse(reader.GetAttribute("NumChoices"));
                 questionString = reader.GetAttribute("QuestionString");
+                string tempChoices = reader.GetAttribute("Labels");
+                choiceLabels = tempChoices.Split(';').ToList();
 
                 if (radioChoices == null)
                 {
@@ -264,6 +268,7 @@ namespace SurveyTool
                         for (int j = 0; j < NumChoices; j++)
                         {
                             radioChoices[i,j] = new RadioButton();
+
                         }
                     }
                 }
@@ -286,6 +291,7 @@ namespace SurveyTool
                     }
                 }
                 inner.Close();
+                //Array.Copy(tempChoiceLabels.ToArray(), 0, choiceLabels, 0, tempChoiceLabels.Count);
             }
 
             public XmlSchema GetSchema()
@@ -340,7 +346,7 @@ namespace SurveyTool
                 table[0, 1] = questions[0].questionString; //they all have the same questionString, just pick one
 
                 int[] totalChoices;
-                string[] ChoiceLabels = new string[numChoices]; //TODO: read these in from somewhere!
+                //string[] ChoiceLabels = new string[numChoices]; //TODO: read these in from somewhere!
 
                 for (int i = 0; i < numImages; i++)
                 {
