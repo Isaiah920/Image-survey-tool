@@ -146,7 +146,7 @@ namespace SurveyTool
                         currPhoto = (curr.Value == null)? "":curr.Value.ToString();
                         if (currPhoto != "")
                         {
-                            string picString = System.IO.Path.GetDirectoryName(settings.fullFileName) + "//" + rootPath + currPhoto;
+                            string picString = System.IO.Path.GetDirectoryName(settings.fullFileName) + "\\" + rootPath + currPhoto;
                             if (File.Exists(picString))
                             {
                                 imageSets[i].AddPicture(picString);//
@@ -170,26 +170,42 @@ namespace SurveyTool
                 //string imageName = photoWorksheet.get_Range("B" + (4 + i), "B" + (4 + i)).Value.ToString();
             }
 
+            string currCell = "";
             for (int i = 0; i < numQuestions; i++)
             {
-                int imageGroupNum = int.Parse(surveyWorksheet.get_Range("A" + (4 + i), "A" + (4 + i)).Value.ToString());
-                string qTypeString = surveyWorksheet.get_Range("D" + (4 + i), "D" + (4 + i)).Value.ToString();
-
                 try
                 {
+                    currCell = "A" + (4 + i);
+                    int imageGroupNum = int.Parse(surveyWorksheet.get_Range(currCell, currCell).Value.ToString());
+                    currCell = "D" + (4 + i);
+                    string qTypeString = surveyWorksheet.get_Range(currCell, currCell).Value.ToString();
+
                     IQuestions currQuestion = (IQuestions)Activator.CreateInstance(null, "SurveyTool." + qTypeString).Unwrap();
-                    currQuestion.SetQuestionString(surveyWorksheet.get_Range("C" + (4 + i), "C" + (4 + i)).Value.ToString());
-                    currQuestion.SetNumImages(imageSets[int.Parse(surveyWorksheet.get_Range("A" + (4 + i), "A" + (4 + i)).Value.ToString())-1].NumImages);
+                    currCell = "C" + (4 + i);
+                    currQuestion.SetQuestionString(surveyWorksheet.get_Range(currCell, currCell).Value.ToString());
+                    currCell = "A" + (4 + i);
+                    currQuestion.SetNumImages(imageSets[int.Parse(surveyWorksheet.get_Range(currCell, currCell).Value.ToString()) - 1].NumImages);
                     if (currQuestion is OneToNQuestion)
                     {
                         OneToNQuestion tempQuestion = (OneToNQuestion)currQuestion;
-                        string[] labels = surveyWorksheet.get_Range("E" + (4 + i), "E" + (4 + i)).Value.ToString().Split(';'); //TODO: check for exception here
+                        currCell = "E" + (4 + i);
+                        string[] labels = surveyWorksheet.get_Range(currCell, currCell).Value.ToString().Split(';'); //TODO: check for exception here
                         tempQuestion.SetChoiceLabels(labels);
                     }
-                    imageSets[imageGroupNum-1].AddQuestion(currQuestion); //since the Excel sheet starts at 1 rather than 0...
+                    imageSets[imageGroupNum - 1].AddQuestion(currQuestion); //since the Excel sheet starts at 1 rather than 0...
                 }
                 catch (TypeLoadException ex)
                 {
+                }
+                catch (NullReferenceException ex)
+                {
+                    MessageBox.Show("Error loading questions from survey file: " + file + ". Invalid input in cell " + currCell + ".", "Error Loading Survey", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                catch (Exception ex) //TODO: a little less generalization would be good here... NullReferenceException should be the main one, but also parseint errors, etc
+                {
+                    MessageBox.Show("Error loading questions from survey file: " + file + ". Invalid input in cell " + currCell + ".", "Error Loading Survey", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
 
