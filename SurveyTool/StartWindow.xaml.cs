@@ -46,39 +46,28 @@ namespace SurveyTool
                     Uri uri = new Uri(programUri, settings.folderName);
                     settings.fullFolderName = uri.LocalPath.ToString();
                 }
-
-                //SurveySelectTextBlock.t
-                //survey.Text = settings.fileName;
                 loadExcel(settings.fullFileName);
             }
             catch (Exception e)
             {
                 //invalid/no config file
             }
-
-            //initialize command bindings:
-            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed, Save_CanExecute));
         }
 
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //System.Windows.
             System.Windows.Window newWindow = new System.Windows.Window();
             newWindow.WindowStyle = System.Windows.WindowStyle.None;
             newWindow.WindowState = System.Windows.WindowState.Maximized;
             newWindow.Background = Brushes.Gray;
             newWindow.Show();
             newWindow.Focusable = false;
-            //newWindow.IsActive = false;
-            //newWindow.c
 
             MainWindow win = new MainWindow(this, settings);
-            //newWindow.
             win.InitializeImageList(imageSets);
             win.TotalNumQuestions = numQuestions;
             win.GreyBackgroundWindow = newWindow;
             win.StartDisplaying();
-            //win.InitializeList(x);
             win.Show();
             win.Topmost = true;
             win.Activate();
@@ -93,21 +82,8 @@ namespace SurveyTool
         //TODO: must be public to pass it along to other stuff later, since reference object... probably not a good thing
         public List<ImageSet> imageSets;
 
-       /* private void FileBrowseButton_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.DefaultExt = ".xls";
-            dialog.Filter = "Excel files (.xls)|*.xls"; //TODO: xlsx?!
-
-            string file = "";
-            if (dialog.ShowDialog() == true) //this is a nullable bool, hence the ==
-            {
-        */
         void loadExcel(string file)
         {
-           // file = dialog.FileName;
-
-
             //long path since conflicts with some wpf Application thing
             Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
             Workbook wb = excel.Workbooks.Open(file, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
@@ -116,7 +92,6 @@ namespace SurveyTool
 
             numImageSets = int.Parse(surveyWorksheet.get_Range("G7", "G7").Value.ToString());
             numQuestions = int.Parse(surveyWorksheet.get_Range("G4", "G4").Value.ToString());
-            //int numQuestions = (int)surveyWorksheet.get_Range("G4", "G4").Value;
 
             imageSets = new List<ImageSet>(numImageSets);
             for (int i=0; i<numImageSets; i++)
@@ -164,10 +139,7 @@ namespace SurveyTool
                 catch (NullReferenceException ex)
                 {
                     //this happens when we read "", since nothing to get the .Value of...
-
                 }
-
-                //string imageName = photoWorksheet.get_Range("B" + (4 + i), "B" + (4 + i)).Value.ToString();
             }
 
             string currCell = "";
@@ -209,13 +181,10 @@ namespace SurveyTool
                 }
             }
 
-            //SurveyTextBox.Text = file;
             SurveySelectTextBlock.Text = "The survey has been loaded successfully from " + settings.fileName;
             SavedToBlock.Text = "The results from this survey will be saved to " + settings.folderName;
             validSurveyLoaded = true; //now we can click the Start Survey button
         }
-            
-        //}
 
         private void VisionProblemsNoRadioButton_Checked(object sender, RoutedEventArgs e)
         {

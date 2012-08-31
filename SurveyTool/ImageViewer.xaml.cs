@@ -251,7 +251,7 @@ namespace SurveyTool
                     }
 
 
-                    /*
+                    
                     if (newVisX >= oldPanX)
                     {
                         m.OffsetX += pos.X - oldPanX;
@@ -266,7 +266,7 @@ namespace SurveyTool
                         realOffsetY += pos.Y - oldPanY;
                         oldVisY = newVisY;
                         oldPanY = pos.Y;
-                    }*/
+                    }
 
                         img.RenderTransform = new MatrixTransform(m);
 

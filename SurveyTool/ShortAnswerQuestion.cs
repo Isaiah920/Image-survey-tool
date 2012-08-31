@@ -159,7 +159,6 @@ namespace SurveyTool
             int numQuestions = questions.Count();
 
             table = new string[numQuestions + 1, 2]; //extra row for heading
-            //table[0, 0] = "" + (questionNumber + 1);
             table[0, 1] = questions[0].questionString; //they all have the same questionString, just pick one
 
             int currRow = 1;

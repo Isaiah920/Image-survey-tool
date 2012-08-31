@@ -17,15 +17,6 @@ namespace SurveyTool
         StartWindow startWindow;
         SurveySettings settings;
 
-        public MainWindow(StartWindow parent, SurveySettings parentSettings)
-        {
-            InitializeComponent();
-            //Grid x;
-            //x.Children.Add(
-            startWindow = parent;
-            settings = parentSettings;
-
-        }
         int currNumImages = 4;
         int currImageSet = -1;
         int currQuestion = -1;
@@ -35,8 +26,11 @@ namespace SurveyTool
         ImageViewer[] imView;
         List<ImageSet> imageSetList = new List<ImageSet>();
 
-        public void test()
+        public MainWindow(StartWindow parent, SurveySettings parentSettings)
         {
+            InitializeComponent();
+            startWindow = parent;
+            settings = parentSettings;
         }
 
         public void InitializeImageList(List<ImageSet> imageSet)
@@ -45,9 +39,6 @@ namespace SurveyTool
         }
         public void StartDisplaying()
         {
-
-            //newWindow.
-
             displayNextQuestion();
             QuestionProgressBar.Maximum = TotalNumQuestions;
             updateCurrQuestionLabel();
@@ -76,7 +67,7 @@ namespace SurveyTool
 
             //if there are no more questions for our current image set, advance to the next:
             // OR if this is our very first question
-            if (currQuestion == -1 || !imageSetList[currImageSet].HasNextQuestion) //(currQuestion == -1 ||
+            if (currQuestion == -1 || !imageSetList[currImageSet].HasNextQuestion)
             {
                 displaySet(++currImageSet);
                 //if we've just come from the previous image set, display the first question in the set:
@@ -89,7 +80,6 @@ namespace SurveyTool
 
             //enable/disable previous and next buttons, depending on our position:
             currQuestion++;
-            //NextButton.IsEnabled = currQuestion < TotalNumQuestions - 1;
             PreviousButton.IsEnabled = currQuestion > 0; //false for first question
 
             x.Display(QuestionGrid);
@@ -158,7 +148,6 @@ namespace SurveyTool
                 imView[i] = new ImageViewer();
                 imView[i].loadImage(imageSetList[index].GetImageAt(i));
                 imView[i].ShowInTaskbar = false;
-                //imView.
                 imView[i].WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
                 imView[i].Top = currRow * (height - 200) / numRows;
                 imView[i].Left = currCol * width / 2;
@@ -175,8 +164,6 @@ namespace SurveyTool
 
                 imView[i].Show();
                 imView[i].Topmost = true;
-                //imView[i].Owner = this;
-                //imView[i].Activate();
 
                 if (currCol == 1)
                 {
@@ -210,7 +197,7 @@ namespace SurveyTool
                 foreach (ImageSet imSet in imageSetList)
                 {
                     currUnansweredList = imSet.UnansweredQuestionsList;
-                    for (int i = 0; i < currUnansweredList.Count; i++)//j in currUnansweredList)
+                    for (int i = 0; i < currUnansweredList.Count; i++)
                     {
                         currUnansweredList[i] += currListFirstQuestionNumber; //translate from relative question number (for that set) to overall number
                     }
@@ -258,33 +245,13 @@ namespace SurveyTool
         private void serializeData()
         {
             Stream st = new FileStream(settings.fullFolderName + "/Survey_" + System.IO.Path.GetRandomFileName()+ ".xml", FileMode.Append);
-
-            /*
-            XmlSerializer personalSer = new XmlSerializer(typeof(PersonalInfo));
-            XmlSerializer ser = new XmlSerializer(typeof(ImageSet));
-            TextWriter writer = new StreamWriter(@"C:\test.xml");
-
-            writer.WriteStartElement("Question");
-            personalSer.Serialize(writer, startWindow.Resources["data"]);
-            foreach (ImageSet ims in imageSetList)
-            {
-                ser.Serialize(writer, ims);
-            }
-            st.Close();
-             */
-
             XmlSerializer ser = new XmlSerializer(typeof(SurveyInfoWrapper));
-            //TextWriter writer = new StreamWriter(@"C:\test.xml");
-
             SurveyInfoWrapper wrapper = new SurveyInfoWrapper((PersonalInfo)startWindow.Resources["data"], imageSetList);
             ser.Serialize(st, wrapper); 
-
             st.Close();
-
         }
-
-
     }
+
     public class SurveyInfoWrapper:IXmlSerializable
     {
         private PersonalInfo person;
@@ -299,6 +266,7 @@ namespace SurveyTool
             person = personInfo;
             imageSets = imageSetList;
         }
+
         public void WriteXml(XmlWriter writer)
         {
             person.WriteXml(writer);
@@ -307,10 +275,12 @@ namespace SurveyTool
                 ims.WriteXml(writer);
             }
         }
+
         public void ReadXml(XmlReader reader)
         {
-            //personName = reader.ReadString();
+            //we don't need this, except to fulfill IXmlSerializable requirements...
         }
+
         public XmlSchema GetSchema()
         {
             return (null);

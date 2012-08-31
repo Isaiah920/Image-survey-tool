@@ -227,29 +227,12 @@ namespace SurveyTool
 
             VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
             dialog.Description = "Please select a folder.";
-            dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
-            //if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
-             //   MessageBox.Show(this, "Because you are not using Windows Vista or later, the regular folder browser dialog will be used. Please use Windows Vista to see the new dialog.", "Sample folder browser dialog");
+            dialog.UseDescriptionForTitle = true; // This applies to the Vista/7 style dialog only, not the old dialog in XP.
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-             //   MessageBox.Show(this, "The selected folder was: " + dialog.SelectedPath, "Sample folder browser dialog");            
-
-
-            //WPFFolderBrowser.WPFFolderBrowserDialog browse = new WPFFolderBrowser.WPFFolderBrowserDialog();
-
-            //FolderBrowserDialog browse = new FolderBrowserDialog();
-            //browse.ShowNewFolderButton = true;
-
-
-           // bool? result2 = browse.ShowDialog();
-            //if( result2 == true )
-            //{
-                settings.fullFolderName = dialog.SelectedPath;//.FileName;
+                settings.fullFolderName = dialog.SelectedPath;
                 updateFolderName();
             }
-            //browse.
-            //browse.ShowDialog();
-            //if (browse.SelectedPath
         }
 
         private void SurveyResultPathRadioButton_Checked(object sender, RoutedEventArgs e)
@@ -280,9 +263,6 @@ namespace SurveyTool
                 }
                 SaveToExcelButton.IsEnabled = true;
             }
-
-            //SurveySelectTextBlock.Text = "The survey has been loaded successfully.";
-            //validSurveyLoaded = true; //now we can click the Start Survey button
         }
 
         private void SaveToExcelButton_Click(object sender, RoutedEventArgs e)
